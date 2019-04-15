@@ -1,3 +1,4 @@
+let csrfToken = $('meta[name=csrf-token]').attr("content");
 function AjaxFactory($url,  $data, $func) {
     return $.ajax({
         url: $url,
@@ -6,4 +7,7 @@ function AjaxFactory($url,  $data, $func) {
         success: $func
     })
 }
-
+let popNextButton = function popNextButton() {
+    $('#next_stage').prop('disabled', false);
+};
+setTimeout(popNextButton, $('#hidden_timeout').text());

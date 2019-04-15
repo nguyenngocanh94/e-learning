@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <h5 class="card-title"><?php echo $model['name'] ?></h5>
                         <p class="card-text"><?php echo $model['description'] ?></p>
                         <?php if ($model['is_enroll']=='enrolled'): ?>
-                            <button class="btn btn-primary register_course" data-id="<?php echo $model['id'] ?>">Tiếp tục học</button>
+                            <button class="btn btn-primary" data-id="<?php echo $model['id'] ?>">Tiếp tục học</button>
                         <?php else: ?>
                             <button class="btn btn-primary register_course" data-id="<?php echo $model['id'] ?>">Ghi danh</button>
                         <?php endif ?>

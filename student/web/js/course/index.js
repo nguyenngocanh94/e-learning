@@ -4,9 +4,10 @@ $('.register_course').click(function () {
         course_id: $(this).data('id'),
         _csrf: csrfToken
     };
-    AjaxFactory('/enroll/create', data, func);
+    AjaxFactory('/material/create', data, func);
 });
 
 let func = function () {
-    $('.modal').modal('show');
+
 };
+

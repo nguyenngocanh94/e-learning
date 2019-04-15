@@ -1,0 +1,14 @@
+select q.material_id,
+       q.id,
+       q.name,
+       q.content,
+       q.hint,
+       q.answer_content,
+       a.id answer_id,
+       a.answer_content answer
+from question q
+         left join answer a on a.question_id = q.id
+where a.del_flg = 0
+  and q.del_flg = 0
+  and q.material_id = :material_id
+order by q.rank, a.rank

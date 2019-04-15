@@ -40,9 +40,16 @@ AppAsset::register($this);
                 <img src="<?php HtmlHelper::getImage('chemistry.svg') ?>" width="30" height="30" class="d-inline-block align-top" alt="">
                 <?php echo Yii::getAlias('@site')?>
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fas fa-user-shield"></i>
-            </button>
+            <div class="user_info">
+                <?php if (isset($this->progress)): ?>
+                    <div class="progress progress-at-nav">
+                        <div class="progress-bar" style="width: <?php echo $this->progress ?>%;" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><?php echo $this->progress ?></div>
+                    </div>
+                <?php endif; ?>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-user-shield"></i>
+                </button>
+            </div>
         </nav>
 
         <div class="container">
