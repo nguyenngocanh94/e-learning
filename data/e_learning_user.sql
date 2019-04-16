@@ -1,0 +1,1 @@
+insert into e-learning.user (id, username, auth_key, password_hash, password_reset_token, email, status, created_at, updated_at, verification_token) values (1, 'erics', 'S9I09La4fFr1pdVca1HcrZ86Ia_1knrJ', '$2y$13$v9tGoK8cBA0sXT6KvBStX.XvEVB6j.PFaDY/OWJ82BoaKqjbVCbbK', null, 'eee@ee.com', 10, 1554915534, 1554915534, 'dzVkWbe4i1otvhRZUQEA1dX_-sXmpRLM_1554915534');

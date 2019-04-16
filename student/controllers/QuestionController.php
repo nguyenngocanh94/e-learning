@@ -62,7 +62,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * Answer a question.
+     * Answer a question multi choice.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -72,32 +72,78 @@ class QuestionController extends Controller
         if (Yii::$app->request->isAjax){
             $data = Yii::$app->request->post();
             $current_student_id = Yii::$app->user->getId();
-            $questionId = $data['question_id'];
-            $answerId = $data['answer_id'];
-
-            $question = Question::find()->where(['id'=>$questionId])->one();
-            $answer = Answer::find()->where(['id'=>$answerId])->one();
             \Yii::$app->response->format = Response::FORMAT_JSON;
-            $qs = new QuestionStatus();
-            $qs->student_id = $current_student_id;
-            $qs->question_id = $questionId;
+            switch ($data['type']){
+                case 'multi-choice':
+                    $questionId = $data['question_id'];
+                    $answerId = $data['answer_id'];
 
-            if ($question->answer_content == $answer->answer_content){
-                $qs->status = QuestionStatus::RIGHT;
-                $qs->save();
-                return [
-                    'rep' => "RIGHT",
-                ];
-            }else{
-                $qs->status = QuestionStatus::WRONG;
-                $qs->save();
-                return [
-                    'rep' => "FALSE",
-                ];
+                    $question = Question::find()->where(['id'=>$questionId])->one();
+                    $answer = Answer::find()->where(['id'=>$answerId])->one();
+                    $qs = new QuestionStatus();
+                    $qs->student_id = $current_student_id;
+                    $qs->question_id = $questionId;
+
+                    if ($question->answer_content == $answer->answer_content){
+                        $qs->status = QuestionStatus::RIGHT;
+                        $qs->save();
+                        return [
+                            'rep' => "RIGHT",
+                        ];
+                    }else{
+                        $qs->status = QuestionStatus::WRONG;
+                        $qs->save();
+                        return [
+                            'rep' => "FALSE",
+                        ];
+                    }
+
+                    break;
+
+                case 'drag':
+                    $rank = $data['rank'];
+                    $component_id = $data['id'];
+
+
+
+                    if (QuestionComponent::find()->where(['id'=>$component_id, 'rank'=>$rank])->count() > 0){
+                        return [
+                            'rep' => "RIGHT",
+                        ];
+                    }else{
+                        return [
+                            'rep' => "FALSE",
+                        ];
+                    }
+                    break;
+
+                case 'essay':
+                    $questionId = $data['question_id'];
+                    $essay = $data['essay'];
+                    $question = Question::find()->where(['id'=>$questionId])->one();
+                    if ($question != null){
+                        if ($essay == $question->essay_content){
+                            return [
+                                'rep' => "RIGHT",
+                            ];
+                        }else{
+                            return [
+                                'rep' => "FALSE",
+                            ];
+                        }
+                    }
+
+                    break;
+
+                default:
+                    \Yii::$app->response->statusCode = Response::$httpStatuses[421];
+                    break;
             }
+
         }
 
     }
+
 
     /**
      * handle drag drop
@@ -125,6 +171,7 @@ class QuestionController extends Controller
     }
 
     /**
+     * update status for question
      * @return array
      * @throws NotFoundHttpException
      */

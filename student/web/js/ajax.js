@@ -11,3 +11,7 @@ let popNextButton = function popNextButton() {
     $('#next_stage').prop('disabled', false);
 };
 setTimeout(popNextButton, $('#hidden_timeout').text());
+
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}

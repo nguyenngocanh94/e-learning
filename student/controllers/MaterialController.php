@@ -3,6 +3,7 @@
 namespace student\controllers;
 
 use common\utilities\Query;
+use student\models\EssayAnswer;
 use student\models\LessionStatus;
 use student\models\Material;
 use student\models\Qa;
@@ -84,6 +85,24 @@ class MaterialController extends Controller
                 'material' => $currentMaterial,
                 'lesson_id' => $lesson_id
             ]);
+        }elseif ($currentMaterial->type == Material::QUIZ_ESSAY){
+            try {
+                $questionList = QuestionCpn::convert(Query::getInstance()
+                    ->query('getQuestionNAnswer.sql', ["material_id" => $currentMaterial->id]), 'quizE');
+            } catch (Exception $e) {
+            }
+            return $this->render('quizE', [
+                'model' => $questionList,
+                'material' => $currentMaterial,
+                'lesson_id' => $lesson_id
+            ]);
+        }else{
+            $questionList = Question::find()->where(['material_id'=>$currentMaterial->id])->all();
+            return $this->render('essay', [
+                'model' => $questionList,
+                'material' => $currentMaterial,
+                'lesson_id' => $lesson_id
+            ]);
         }
 
         return 1;
@@ -100,6 +119,13 @@ class MaterialController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+    }
+
+    public function actionEssay(){
+        $model = new EssayAnswer();
+        $data = Yii::$app->request->post();
+
+
     }
 
     /**

@@ -29,6 +29,8 @@ class Material extends ActiveRecord
     const POWERPOINT = 2;
     const QUIZ = 3;
     const DRAG = 4;
+    const QUIZ_ESSAY = 5;
+    const ESSAY = 6;
 
     /**
      * {@inheritdoc}

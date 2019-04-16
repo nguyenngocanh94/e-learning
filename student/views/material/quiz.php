@@ -19,10 +19,13 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="row question-list">
+    <div class="row quize-list">
         <?php /** @var SingleQuestion[] $model */foreach ($model as $item): ?>
             <?php echo $item->out(); ?>
         <?php endforeach; ?>
+    </div>
+    <div class="col-md-2 offset-10">
+        <button data-id="<?php echo $material->id; ?>" type="button" class="btn btn-primary btn-lg" id="next_stage_quiz" disabled>Tiếp tục</button>
     </div>
 </div>
 <?php

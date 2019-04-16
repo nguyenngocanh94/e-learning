@@ -1,0 +1,10 @@
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (1, 'Đúng', 1, 1, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (2, 'Sai', 1, 2, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (3, 'Đúng', 2, 1, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (4, 'Sai', 2, 2, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (5, 'Chất khử', 5, 1, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (6, 'chất oxi hóa', 5, 2, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (7, 'Chất khử', 6, 1, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (8, 'chất oxi hóa', 6, 2, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (9, 'Chất khử', 7, 1, null, null, null, null, 0);
+insert into e-learning.answer (id, answer_content, question_id, rank, create_at, update_at, create_by, update_by, del_flg) values (10, 'chất oxi hóa', 7, 2, null, null, null, null, 0);

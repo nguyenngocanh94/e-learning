@@ -40,4 +40,9 @@ class ProgressTracking
     public static function trackingMaterialProcess($lesson_id){
         return LessionStatus::find()->where(['student_id'=>Yii::$app->user->getId(), 'lesson_id'=> $lesson_id])->one()->status;
     }
+
+    public static function getCurrentMaterial($lesson_id){
+        $status = self::trackingMaterialProcess($lesson_id);
+
+    }
 }

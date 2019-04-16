@@ -1,0 +1,1 @@
+insert into e-learning.quiz (id, material_id, type, content, create_at, update_at, create_by, update_by, del_flg) values (1, 1, 1, 'Tính chất vật lí và tính oxit axit của SO2.', null, null, null, null, 0);

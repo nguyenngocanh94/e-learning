@@ -5,6 +5,7 @@ $('.answer-item').click(function () {
         $me.addClass('set');
         $me.parent().addClass('selected');
         $data = {
+            type: 'multi-choice',
             question_id: $me.parent().data('question'),
             answer_id: $me.data('answer')
         };
@@ -14,6 +15,13 @@ $('.answer-item').click(function () {
                 $me.removeClass('right');
                 $me.addClass('wrong');
             }else {
+                $question = $me.parents('.card');
+                if ($question.hasClass('done-essay')){
+                    $question.removeClass('done-essay');
+                    $question.addClass('done-all');
+                }else{
+                    $question.addClass('done-choice');
+                }
                 $me.removeClass('set');
                 $me.removeClass('wrong');
                 $me.addClass('right');
@@ -25,10 +33,12 @@ $('.answer-item').click(function () {
 $('.re-select').click(function () {
     $parent = $(this).parents('.card');
     $parent.children('.card-body-title').children('p.the-hint').hide();
-    $theLi = $(this).parent().prev().children();
+    $theLi = $(this).parent().prev().children('.choice');
     $theLi.removeClass('selected');
     $theLi.each(function () {
         $(this).children().removeClass('set');
+        $(this).children().removeClass('wrong');
+        $(this).children().removeClass('right');
     })
 });
 
@@ -38,3 +48,40 @@ $('.hint-pop').click(function () {
         $parent.children('.card-body-title').children('p.the-hint').show();
     }
 });
+
+$('.submit-essay').click(function () {
+    $theEssay = $(this).parent().prev().prev().children('.essay').children().children('.essay-answer');
+    $theEssayValue = $theEssay.val();
+    $question = $(this).parents('.card');
+    $questionId = $question.data('question');
+    if ($theEssayValue != ''){
+        AjaxFactory('/question/answer',
+            {
+                type: 'essay',
+                question_id: $questionId,
+                essay: $theEssayValue
+            }, function ($res) {
+                if ($res.rep === 'RIGHT'){
+                    $theEssay.addClass('right');
+                    if ($question.hasClass('done-choice')){
+                        $question.removeClass('done-choice');
+                        $question.addClass('done-all');
+                    }else{
+                        $question.addClass('done-essay');
+                    }
+                }else {
+                    $theEssay.addClass('wrong');
+                }
+            })
+    }
+});
+
+let triggerBtn = function () {
+    $aQ = $('.card').length;
+    $rQ = $('.done-all').length;
+    if ($aQ === $rQ){
+        $('#next_stage_quiz').prop('disabled', false);
+    }
+};
+
+setInterval(triggerBtn, 10000);

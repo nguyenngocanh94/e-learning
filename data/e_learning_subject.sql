@@ -1,0 +1,10 @@
+insert into e-learning.subject (id, image, name, create_at, update_at) values (1, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'Hóa Học', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (2, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'SS', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (3, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'DD', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (4, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'SDSD', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (5, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'FF', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (6, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'S', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (7, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'SFF', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (8, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'SDSD', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (9, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'SDSD', null, null);
+insert into e-learning.subject (id, image, name, create_at, update_at) values (10, 'C:\\xampp\\htdocs\\advanced/uploads/d1b155350cac7ee61cc87bc29c1d5b35.jpg', 'SDS', null, null);
