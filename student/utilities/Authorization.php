@@ -1,7 +1,7 @@
 <?php
 namespace student\utilities;
 
-use app\models\Enroll;
+use common\models\Enroll;
 
 class Authorization
 {

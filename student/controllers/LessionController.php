@@ -2,12 +2,10 @@
 
 namespace student\controllers;
 
-use app\models\Enroll;
 use student\utilities\Authorization;
 use student\utilities\ProgressTracking;
 use Yii;
-use app\models\Lession;
-use app\models\LessionS;
+use common\models\Lession;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

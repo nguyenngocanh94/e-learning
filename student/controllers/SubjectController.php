@@ -2,9 +2,9 @@
 
 namespace student\controllers;
 
+use common\models\Subject;
+use common\models\SubjectS;
 use Yii;
-use app\models\Subject;
-use student\models\SubjectS;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

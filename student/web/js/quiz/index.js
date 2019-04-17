@@ -1,3 +1,4 @@
+setQuestionThreshold($('#threshold_question').val());
 $('.answer-item').click(function () {
     $me = $(this);
     $diff = $me.parent().siblings('.selected').length;
@@ -50,6 +51,14 @@ $('.hint-pop').click(function () {
 });
 
 $('.submit-essay').click(function () {
+    var me = $(this);
+    e.preventDefault();
+
+    if ( me.data('requestRunning') ) {
+        return;
+    }
+
+    me.data('requestRunning', true);
     $theEssay = $(this).parent().prev().prev().children('.essay').children().children('.essay-answer');
     $theEssayValue = $theEssay.val();
     $question = $(this).parents('.card');
@@ -72,16 +81,15 @@ $('.submit-essay').click(function () {
                 }else {
                     $theEssay.addClass('wrong');
                 }
-            })
+            }, me)
     }
 });
 
 let triggerBtn = function () {
-    $aQ = $('.card').length;
     $rQ = $('.done-all').length;
-    if ($aQ === $rQ){
-        $('#next_stage_quiz').prop('disabled', false);
+    if ($rQ >= $questionThreshold){
+        $('#next_stage').prop('disabled', false);
     }
 };
 
-setInterval(triggerBtn, 10000);
+setInterval(triggerBtn, 5000);

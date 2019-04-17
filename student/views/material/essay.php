@@ -69,13 +69,15 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-pen-fancy"></i></span>
                             </div>
-                            <form action="/material/">
-                                <textarea rows="4" class="form-control" aria-label="With textarea"></textarea>
+                            <form class="question-form">
+                                <input type="hidden" name="type" value="essay">
+                                <input type="hidden" name="question_id" value="<?php echo $item->id ?>">
+                                <textarea rows="4" cols="135" name="essay_content" class="form-control" aria-label="With textarea"></textarea>
                             </form>
                         </div>
                     </div>
                     <div class="col-xs-2 offset-10" style="margin-bottom: 10px;">
-                        <a href="#" class="btn btn-primary">Gửi câu trả lời</a>
+                        <button class="btn btn-primary send-essay">Gửi câu trả lời</button>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -85,4 +87,8 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
         </div>
     </div>
 <?php
+?>
+
+<?php
+$this->registerJsFile("/js/essay/index.js", ['depends' => [AppAsset::className()]]);
 ?>

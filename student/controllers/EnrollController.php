@@ -3,8 +3,8 @@
 namespace student\controllers;
 
 use Yii;
-use app\models\Enroll;
-use app\models\EnrollS;
+use common\models\Enroll;
+use common\models\EnrollS;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

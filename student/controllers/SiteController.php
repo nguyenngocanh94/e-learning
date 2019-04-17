@@ -1,19 +1,21 @@
 <?php
 namespace student\controllers;
 
+use common\models\SubjectS;
+use common\utilities\Query;
 use student\models\ResendVerificationEmailForm;
 use student\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\db\Exception;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
+use common\models\StudentLoginForm;
 use student\models\PasswordResetRequestForm;
 use student\models\ResetPasswordForm;
 use student\models\SignupForm;
-use student\models\ContactForm;
 
 /**
  * Site controller
@@ -78,7 +80,20 @@ class SiteController extends Controller
             return $this->redirect('login');
         }
 
-//        return $this->redirect('');
+        $searchModel = new SubjectS();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 3);
+
+        try {
+            $soonCourse = Query::getInstance()->query('getNewCourseRegister.sql', ['student_id' => Yii::$app->user->getId()]);
+        } catch (Exception $e) {
+            throwException($e);
+        }
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'course' => $soonCourse
+        ]);
     }
 
     /**
@@ -92,7 +107,7 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
+        $model = new StudentLoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {

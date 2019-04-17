@@ -27,8 +27,9 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
                 <?php echo $item->out(); ?>
             <?php endforeach; ?>
         </div>
+        <input type="hidden" id="question_threshold" value="<?php echo $material->question_threshold; ?>">
         <div class="col-md-2 offset-10">
-            <button data-id="<?php echo $material->id; ?>" type="button" class="btn btn-primary btn-lg" id="next_stage_quiz" disabled>Tiếp tục</button>
+            <button data-id="<?php echo $material->id; ?>" type="button" class="btn btn-primary btn-lg" id="next_stage" disabled>Tiếp tục</button>
         </div>
     </div>
 <?php

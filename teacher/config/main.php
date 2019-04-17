@@ -17,7 +17,7 @@ return [
             'csrfParam' => '_csrf-teacher',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'teacher\models\Teacher',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-teacher', 'httpOnly' => true],
         ],

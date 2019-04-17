@@ -2,12 +2,13 @@
 
 namespace student\controllers;
 
-use student\models\Answer;
-use student\models\QuestionComponent;
-use student\models\QuestionStatus;
+use common\models\Answer;
+use common\models\EssayAnswer;
+use common\models\QuestionComponent;
+use common\models\QuestionStatus;
 use Yii;
-use student\models\Question;
-use student\models\QuestionS;
+use common\models\Question;
+use common\models\QuestionS;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -119,20 +120,19 @@ class QuestionController extends Controller
 
                 case 'essay':
                     $questionId = $data['question_id'];
-                    $essay = $data['essay'];
-                    $question = Question::find()->where(['id'=>$questionId])->one();
-                    if ($question != null){
-                        if ($essay == $question->essay_content){
-                            return [
-                                'rep' => "RIGHT",
-                            ];
-                        }else{
-                            return [
-                                'rep' => "FALSE",
-                            ];
-                        }
+                    $essay = $data['essay_content'];
+                    if (!Question::findOne($questionId)){
+                        return ['rep'=>"FALSE"];
                     }
 
+                    $essayAnw = new EssayAnswer();
+                    $essayAnw->content = $essay;
+                    $essayAnw->question_id = $questionId;
+                    $essayAnw->student_id = Yii::$app->user->getId();
+
+                    $essayAnw->save();
+
+                    return ['rep'=>'RIGHT'];
                     break;
 
                 default:
@@ -145,30 +145,6 @@ class QuestionController extends Controller
     }
 
 
-    /**
-     * handle drag drop
-     * @return array
-     */
-    public function actionDrag(){
-        if (Yii::$app->request->isAjax){
-            $data = Yii::$app->request->post();
-            $rank = $data['rank'];
-            $component_id = $data['id'];
-
-            \Yii::$app->response->format = Response::FORMAT_JSON;
-
-            if (QuestionComponent::find()->where(['id'=>$component_id, 'rank'=>$rank])->count() > 0){
-                return [
-                    'rep' => "RIGHT",
-
-                ];
-            }else{
-                return [
-                    'rep' => "FALSE",
-                ];
-            }
-        }
-    }
 
     /**
      * update status for question

@@ -16,17 +16,16 @@ $this->title = $material->name;
 $this->progress = ProgressTracking::lessonProgress($lesson_id);
 ?>
 <div class="quiz-index">
-
     <h1><?= Html::encode($this->title) ?></h1>
-
     <div class="row quize-list">
         <?php /** @var SingleQuestion[] $model */foreach ($model as $item): ?>
             <?php echo $item->out(); ?>
         <?php endforeach; ?>
     </div>
     <div class="col-md-2 offset-10">
-        <button data-id="<?php echo $material->id; ?>" type="button" class="btn btn-primary btn-lg" id="next_stage_quiz" disabled>Tiếp tục</button>
+        <button data-id="<?php echo $material->id; ?>" type="button" class="btn btn-primary btn-lg" id="next_stage" disabled>Tiếp tục</button>
     </div>
+    <input type="hidden" id="threshold_question" value="<?php echo $material->question_threshold; ?>">
 </div>
 <?php
 $this->registerJsFile("/js/quiz/index.js", ['depends' => [AppAsset::className()]]);

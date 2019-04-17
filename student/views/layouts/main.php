@@ -7,6 +7,7 @@ use common\utilities\HtmlHelper;
 use yii\helpers\Html;
 use student\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -29,14 +30,15 @@ AppAsset::register($this);
     <div class="pos-f-t">
         <div class="collapse" id="navbarToggleExternalContent">
             <div class="bg-dark p-4">
-                <h4 class="text-white">Xin chào, <?= Html::a('Eric', ['update']) ?>
-                </h4>
-
+                <h4 class="text-white">Xin chào, <?= Html::a('Eric', ['update']) ?></h4>
                 <span class="text-muted" id="date"></span>
+                <input type="hidden"  id="threshold_time_global">
+                <input type="hidden" id="threshold_question_global">
+                <input type="hidden" id="done_question_global">
             </div>
         </div>
         <nav class="navbar navbar-light bg-light">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="<?php echo Url::base(true);?>">
                 <img src="<?php HtmlHelper::getImage('chemistry.svg') ?>" width="30" height="30" class="d-inline-block align-top" alt="">
                 <?php echo Yii::getAlias('@site')?>
             </a>

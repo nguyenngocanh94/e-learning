@@ -2,12 +2,12 @@
 
 namespace student\controllers;
 
+use common\models\Lession;
 use common\utilities\Query;
-use student\models\EssayAnswer;
-use student\models\LessionStatus;
-use student\models\Material;
+use common\models\LessionStatus;
+use common\models\Material;
 use student\models\Qa;
-use student\models\Question;
+use common\models\Question;
 use student\models\QuestionCpn;
 use Yii;
 use yii\db\Exception;
@@ -51,12 +51,17 @@ class MaterialController extends Controller
             'student_id'=>Yii::$app->user->getId()])->orderBy(['id' => SORT_DESC])->limit(1)->one();
         $currentStatus = $lessonStatus ? $lessonStatus->status : 1;
 
+        $temp  = array_filter($materials,
+            function ($v) use ($currentStatus) { return $v->rank == $currentStatus+1; });
         /**
          * @var Material $currentMaterial
          */
-        $currentMaterial = array_slice(
-            array_filter($materials,
-                function ($v) use ($currentStatus) { return $v->rank == $currentStatus+1; }), 0)[0];
+        $currentMaterial = count($temp) > 0 ? array_slice(
+            $temp, 0)[0] : null;
+        if ($currentMaterial == null){
+            $course_id = Lession::findOne($lesson_id)->course_id;
+            return $this->redirect(array('lession/index', 'course_id'=>$course_id));
+        }
 
         if ($currentMaterial->type == Material::VIDEO){
             if ($currentMaterial->type == Material::VIDEO){
@@ -119,13 +124,6 @@ class MaterialController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
-    }
-
-    public function actionEssay(){
-        $model = new EssayAnswer();
-        $data = Yii::$app->request->post();
-
-
     }
 
     /**

@@ -1,13 +1,17 @@
+setQuestionThreshold($('#threshold_question').val());
 $( function() {
     $( ".draggable" ).draggable();
     $( ".droppable" ).droppable({
         drop: function( event, ui ) {
             $place = $(this);
+            $(".draggable").draggable("disable");
+            $("#progress_bar").show();
             $dragger = $(ui.draggable);
             $rank = $place.data('rank');
             $id = $dragger.data('id');
-            AjaxFactory('/question/answer', {
+            AjaxFactoryD('/question/answer', {
                 id: $id,
+                type: 'drag',
                 rank: $rank
             }, function ($result) {
                 if ($result.rep === "FALSE"){
@@ -21,13 +25,16 @@ $( function() {
                     $questionId =  $dragger.parent().parent().prev().data('id');
 
                     if ($numberR  === $numberQ){
-                        AjaxFactory('/question/update', {type: 'drag',question_id: $questionId,  _csrf: csrfToken}, function($res){
+                        AjaxFactory('/question/update', {question_id: $questionId,  _csrf: csrfToken}, function($res){
                             if ($res.rep === "RIGHT"){
                                 $place.parents('.mother-all').addClass('done');
                             }
                         });
                     }
                 }
+            }, function () {
+                $(".draggable").draggable("enable");
+                $("#progress_bar").hide();
             })
         }
     });
@@ -49,7 +56,7 @@ $( function() {
                }
            }
            $range =Math.ceil($grids/3);
-           $newH = (Math.ceil($position/$range)*50)-48;
+           $newH = (Math.ceil($position/$range)*50)-45;
            $newW =  Math.abs($position%$range) * 120;
 
             $(e).css({
@@ -61,13 +68,12 @@ $( function() {
     });
 
     let triggerBtn = function () {
-        $aQ = $('.mother-all').length;
         $rQ = $('.done').length;
-        if ($aQ === $rQ){
-            $('#next_stage_quiz').prop('disabled', false);
+        if ($rQ >= $questionThreshold){
+            $('#next_stage').prop('disabled', false);
         }
     };
 
-    setInterval(triggerBtn, 10000);
+    setInterval(triggerBtn, 5000);
 
 } );

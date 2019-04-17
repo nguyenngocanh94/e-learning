@@ -49,11 +49,11 @@ a.asc:after, a.desc:after {
 }
 
 a.asc:after {
-    content: /*"\e113"*/ "\e151";
+    content: "\e151";
 }
 
 a.desc:after {
-    content: /*"\e114"*/ "\e152";
+    content: "\e152";
 }
 
 .sort-numerical a.asc:after {
@@ -117,4 +117,100 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+.user_info{
+    display: inline-flex;
+    align-items: center;
+}
+
+.progress-at-nav{
+    width: 100px;
+    margin-right: 10px;
+}
+
+/*subject page css*/
+.subject-list, .question-list{
+    margin-top: 4%;
+}
+.subject-item{
+    margin: 0 0 10px 0;
+}
+/*video css*/
+.next-btn{
+    margin-top: 10%;
+}
+
+/*question quiz*/
+.question-item{
+    margin: 0 0 10px 0;
+}
+
+.card-body-title{
+    height: 250px;
+}
+.answer-item{
+    background-color: white;
+    color: green;
+}
+
+.answer-item:hover{
+    background-color: white;
+    color: green;
+    border-color: #085d97;
+}
+
+.answer-item:active{
+}
+
+.set{
+    border: 2px solid blue;
+}
+
+.wrong{
+    border: 2px solid red !important;
+}
+
+.right{
+    border: 2px solid green !important;
+}
+.answer-pool{
+    width: 80%;
+    height: 150px;
+    position:relative;
+    padding: 10px;
+    border: 3px solid blue;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.answer-inside{
+    cursor: grab;
+    display: inline-block;
+    position:absolute;
+    text-align: center;
+    border: 2px solid blue;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.answer-inside > h3{
+    padding: 1px 10px 1px 10px;
+}
+
+.question-placehold{
+    -webkit-border-radius: 10px;
+    -moz-border-radius:10px;
+    border-radius: 10px;
+    float: left;
+    width: 140px;
+    height: 40px;
+    padding: 10px;
+    border: 2px solid blue;
+}
+
+.chemistry-element{
+    margin-right: 2%;
 }

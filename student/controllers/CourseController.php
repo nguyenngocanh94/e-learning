@@ -4,8 +4,7 @@ namespace student\controllers;
 
 use common\utilities\Query;
 use Yii;
-use app\models\Course;
-use app\models\CourseS;
+use common\models\Course;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -51,16 +50,16 @@ class CourseController extends Controller
      */
     public function actionIndex($subjectId = null)
     {
+        $queryClz = Query::getInstance();
         if ($subjectId != null){
-            $models = Course::find()->where(['subject_id' => $subjectId, 'del_flg'=>0])->all();
+            $models = $queryClz->query('getAvailableCourse.sql', [':student_id' => Yii::$app->user->getId(), ':subject_id'=>$subjectId]);
         }else{
-            $queryClz = Query::getInstance();
-            $models = $queryClz->query('getAvailableCourse.sql', [':student_id' => Yii::$app->user->getId()]);
+            $models = $queryClz->query('getAvailableCourse.sql', [':student_id' => Yii::$app->user->getId(), ':subject_id'=>0]);
         }
 
 
         return $this->render('index', [
-            'models'=>$models
+            'models'=>$models,
         ]);
     }
 

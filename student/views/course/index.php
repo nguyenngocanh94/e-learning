@@ -1,6 +1,7 @@
 <?php
 
 use common\utilities\HtmlHelper;
+use student\assets\AppAsset;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
@@ -47,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <h5 class="card-title"><?php echo $model['name'] ?></h5>
                         <p class="card-text"><?php echo $model['description'] ?></p>
                         <?php if ($model['is_enroll']=='enrolled'): ?>
-                            <button class="btn btn-primary" data-id="<?php echo $model['id'] ?>">Tiếp tục học</button>
+                            <?= Html::a('Tiếp tục học', ['lession/index', 'course_id' => $model['id']], ['class' => 'btn btn-primary']) ?>
                         <?php else: ?>
                             <button class="btn btn-primary register_course" data-id="<?php echo $model['id'] ?>">Ghi danh</button>
                         <?php endif ?>
@@ -58,5 +59,5 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <?php
-$this->registerJsFile("/js/course/index.js", ['depends' => [yii\web\JqueryAsset::className()]]);
+$this->registerJsFile("/js/course/index.js", ['depends' => [AppAsset::className()]]);
 ?>

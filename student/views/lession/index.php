@@ -27,9 +27,9 @@ $this->progress = ProgressTracking::courseProgress($course_id);
                         <p class="card-text"><?php echo $models[$i]->overview ?></p>
                         <?php /** @var int $course_status */
                         if ($i <  $course_status): ?>
-                            <button class="btn btn-primary register_course" data-id="<?php echo $models[$i]->id ?>">Đã hoàn thành</button>
+                            <?= Html::a('Đã hoàn thành', ['material/index', 'lesson_id' => $models[$i]->id], ['class' => 'btn btn-primary']) ?>
                         <?php else: ?>
-                            <button class="btn btn-primary" data-id="<?php echo $models[$i]->id ?>">Học</button>
+                            <?= Html::a('Học', ['material/index', 'lesson_id' => $models[$i]->id], ['class' => 'btn btn-primary']) ?>
                         <?php endif ?>
                     </div>
                 </div>

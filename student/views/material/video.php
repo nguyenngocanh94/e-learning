@@ -2,7 +2,6 @@
 
 use common\utilities\Youtube;
 use yii\helpers\Html;
-use yii\web\JqueryAsset;
 
 /* @var $this yii\web\View */
 /* @var $model \student\models\Material */
@@ -25,7 +24,7 @@ $this->title = $model->name;
         </div>
     </div>
 </div>
-<p id="hidden_timeout" hidden><?php echo (60000)*($model->limit_time) ?></p>
+<p id="hidden_timeout" hidden><?php echo (1000)*($model->limit_time) ?></p>
 <?php
 $this->registerJsFile("/js/material/index.js", ['depends' => [yii\web\JqueryAsset::className()]]);
 ?>

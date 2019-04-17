@@ -1,11 +1,4 @@
-$('#next_stage').click(function () {
-    let data = {
-        material_id: $(this).data('id'),
-        _csrf: csrfToken
-    };
-    AjaxFactory('/material/next', data, func);
-});
-
+$('#threshold_time_global').val($('#hidden_timeout').text());
 let func = function () {
     $('.modal').modal('show');
 };

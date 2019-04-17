@@ -3,7 +3,6 @@ select
     course.*
 from
     course
-left join
+        left join
     enroll on enroll.course_id = course.id
-where course.del_flg = 0
-
+where course.del_flg = 0 and if(:subject_id = 0, true, course.subject_id = :subject_id)

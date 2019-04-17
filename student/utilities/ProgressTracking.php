@@ -4,10 +4,10 @@
 namespace student\utilities;
 
 
-use app\models\Enroll;
-use app\models\Lession;
-use student\models\LessionStatus;
-use student\models\Material;
+use common\models\Enroll;
+use common\models\Lession;
+use common\models\LessionStatus;
+use common\models\Material;
 use Yii;
 
 class ProgressTracking
@@ -15,13 +15,13 @@ class ProgressTracking
     public static function courseProgress($course_id){
         $lessonTotal = Lession::find()->where(['course_id'=>$course_id, 'del_flg'=>0])->count();
 
-        return round((self::trackingLessonProcess($course_id) / $lessonTotal) * 100);
+        return $lessonTotal > 0 ?round((self::trackingLessonProcess($course_id) / $lessonTotal) * 100) : 100;
     }
 
     public static function lessonProgress($lesson_id){
         $materialTotal = Material::find()->where(['lesson_id'=>$lesson_id, 'del_flg'=>0])->count();
 
-        return round((self::trackingMaterialProcess($lesson_id) / $materialTotal) * 100);
+        return $materialTotal > 0 ? round((self::trackingMaterialProcess($lesson_id) / $materialTotal) * 100): 100;
     }
 
 
