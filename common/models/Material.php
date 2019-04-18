@@ -2,6 +2,7 @@
 
 namespace common\models;;
 
+use common\utilities\Time;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -75,5 +76,23 @@ class Material extends ActiveRecord
             'update_by' => 'Update By',
             'del_flg' => 'Del Flg',
         ];
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if ($insert){
+            $this->update_at = Time::Now();
+            $this->create_at = Time::Now();
+            $this->update_by = Yii::$app->user->getId();
+            $this->create_by = Yii::$app->user->getId();
+        }else{
+            $this->update_at = Time::Now();
+            $this->update_by = Yii::$app->user->getId();
+        }
+        return parent::beforeSave($insert);
     }
 }

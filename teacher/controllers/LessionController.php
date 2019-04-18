@@ -2,19 +2,17 @@
 
 namespace teacher\controllers;
 
-use common\models\Subject;
-use teacher\models\CourseForm;
 use Yii;
-use common\models\Course;
-use common\models\CourseS;
+use common\models\Lession;
+use common\models\LessionS;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CourseController implements the CRUD actions for Course model.
+ * LessionController implements the CRUD actions for Lession model.
  */
-class CourseController extends Controller
+class LessionController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -32,18 +30,16 @@ class CourseController extends Controller
     }
 
     /**
-     * Lists all Course models.
-     * @param $subject_id
+     * Lists all Lession models.
+     * @param $course_id
      * @return mixed
      */
-    public function actionIndex($subject_id)
+    public function actionIndex($course_id)
     {
-        if ($subject_id == null){
-            return;
-        }
-        $searchModel = new CourseS();
+        $searchModel = new LessionS();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['subject_id'=>$subject_id]);
+        $dataProvider->query->where(['course_id'=>$course_id, 'teacher_id'=>Yii::$app->user->getId()]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -51,7 +47,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Displays a single Course model.
+     * Displays a single Lession model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -64,29 +60,25 @@ class CourseController extends Controller
     }
 
     /**
-     * Creates a new Course model.
+     * Creates a new Lession model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($subject_id)
+    public function actionCreate()
     {
-        if ($subject_id == null){
-            return;
-        }
+        $model = new Lession();
 
-        $model = new CourseForm();
-        if ($model->load(Yii::$app->request->post()) && $model->create()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'subject_id'=>$subject_id
         ]);
     }
 
     /**
-     * Updates an existing Course model.
+     * Updates an existing Lession model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -106,7 +98,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Deletes an existing Course model.
+     * Deletes an existing Lession model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,15 +112,15 @@ class CourseController extends Controller
     }
 
     /**
-     * Finds the Course model based on its primary key value.
+     * Finds the Lession model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Course the loaded model
+     * @return Lession the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Course::findOne($id)) !== null) {
+        if (($model = Lession::findOne($id)) !== null) {
             return $model;
         }
 

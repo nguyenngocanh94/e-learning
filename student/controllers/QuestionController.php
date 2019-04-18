@@ -79,7 +79,7 @@ class QuestionController extends Controller
                     $questionId = $data['question_id'];
                     $answerId = $data['answer_id'];
 
-                    $question = Question::find()->where(['id'=>$questionId])->one();
+                    $question = Question::find()->cache('9000')->where(['id'=>$questionId])->one();
                     $answer = Answer::find()->where(['id'=>$answerId])->one();
                     $qs = new QuestionStatus();
                     $qs->student_id = $current_student_id;

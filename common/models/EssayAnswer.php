@@ -55,4 +55,6 @@ class EssayAnswer extends ActiveRecord
             'del_flg' => Yii::t('app', 'Del Flg'),
         ];
     }
+
+
 }

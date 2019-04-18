@@ -9,6 +9,7 @@ use Yii;
 use yii\base\InvalidArgumentException;
 use yii\db\Exception;
 use yii\web\BadRequestHttpException;
+use yii\web\ConflictHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -16,6 +17,7 @@ use common\models\StudentLoginForm;
 use student\models\PasswordResetRequestForm;
 use student\models\ResetPasswordForm;
 use student\models\SignupForm;
+use yii\web\HttpException;
 
 /**
  * Site controller
@@ -62,11 +64,22 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
+            'exception' => [
+                'class' => 'yii\web\ErrorAction',
+            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionError()
+    {
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception !== null) {
+            return $this->render('error', ['exception' => $exception]);
+        }
     }
 
     /**
@@ -86,7 +99,7 @@ class SiteController extends Controller
         try {
             $soonCourse = Query::getInstance()->query('getNewCourseRegister.sql', ['student_id' => Yii::$app->user->getId()]);
         } catch (Exception $e) {
-            throwException($e);
+            throw new HttpException(404,'The specified post cannot be found.');
         }
 
         return $this->render('index', [

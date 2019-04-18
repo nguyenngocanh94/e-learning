@@ -30,12 +30,17 @@ return [
                 'login' => 'site/login'
             ),
         ],
+        'redis'         => [
+            'class'    => 'yii\redis\Connection',
+            'hostname' => 'localhost',
+            'port'     => 6379,
+            'database' => 0,
+        ],
         'session' => [
             'class' => 'yii\redis\Session',
-            'redis' => [
-                'hostname' => 'localhost',
-                'port' => 6379,
-            ]
+        ],
+        'cache'         => [
+            'class' => 'yii\redis\Cache',
         ],
     ],
 

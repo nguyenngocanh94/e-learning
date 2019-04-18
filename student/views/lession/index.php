@@ -4,12 +4,12 @@ use common\utilities\HtmlHelper;
 use student\utilities\ProgressTracking;
 use yii\helpers\Html;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\LessionS */
+/* @var $searchModel common\models\LessionS */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Danh sách bài học';
 $this->params['breadcrumbs'][] = $this->title;
-/** @var TYPE_NAME $course_id */
+/** @var int $course_id */
 $this->progress = ProgressTracking::courseProgress($course_id);
 ?>
 <div class="lession-index">
@@ -17,7 +17,7 @@ $this->progress = ProgressTracking::courseProgress($course_id);
     <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="row subject-list">
-        <?php /** @var \app\models\Lession[] $models */
+        <?php /** @var common\models\Lession[] $models */
         for ($i = 0; $i < count($models); $i++): ?>
             <div class="col-md-3 subject-item">
                 <div class="card" style="width: 17rem;">
