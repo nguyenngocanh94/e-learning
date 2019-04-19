@@ -35,7 +35,7 @@ class AudioController extends Controller
     }
 
     public function actionWrong(){
-        return HtmlHelper::getAudio('right.mp3');
+        return HtmlHelper::getAudio('wrong.mp3');
     }
 
 }
