@@ -32,7 +32,13 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p><?php echo $material->end?></p>
+                        <p>
+                            <?php if ($material->end == null): ?>
+                                Các em đã rất cố gắng, xin chúc mừng đã vượt qua!!
+                            <?php else: ?>
+                                <?php echo $material->end?>
+                            <?php endif ?>
+                        </p>
                     </div>
                     <div class="modal-footer">
                         <button data-id="<?php echo $material->id; ?>" id="next_stage" type="button" class="btn btn-primary">Tiếp</button>
