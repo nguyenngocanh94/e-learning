@@ -3,6 +3,7 @@
 namespace teacher\controllers;
 
 use common\models\Material;
+use common\utilities\Grant;
 use Yii;
 use common\models\Question;
 use common\models\QuestionS;
@@ -25,26 +26,12 @@ class QuestionController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST','GET'],
                 ],
             ],
         ];
     }
 
-    /**
-     * Lists all Question models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new QuestionS();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single Question model.
@@ -113,8 +100,11 @@ class QuestionController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+        if (!Grant::checkModel($model)){
+            throw new HttpException('403', "Permission");
+        }
         $model->delete();
-        return $this->redirect(['material/update/'.$model->material_id]);
+        return $this->redirect(['material/update/','id'=>$model->material_id]);
     }
 
     /**

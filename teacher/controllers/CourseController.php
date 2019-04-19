@@ -2,11 +2,13 @@
 
 namespace teacher\controllers;
 
+use common\utilities\Grant;
 use teacher\models\CourseForm;
 use Yii;
 use common\models\Course;
 use common\models\CourseS;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -32,21 +34,21 @@ class CourseController extends Controller
 
     /**
      * Lists all Course models.
-     * @param $subject_id
+     * @param $id
      * @return mixed
      */
-    public function actionIndex($subject_id)
+    public function actionIndex($id)
     {
-        if ($subject_id == null){
+        if ($id == null){
             return;
         }
         $searchModel = new CourseS();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['subject_id'=>$subject_id]);
+        $dataProvider->query->where(['subject_id'=>$id]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'subject_id'=>$subject_id
+            'subject_id'=>$id
         ]);
     }
 
@@ -114,9 +116,12 @@ class CourseController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        if (!Grant::checkModel($model)){
+            throw new HttpException('403', "Permission");
+        }
+        $model->delete();
+        return $this->redirect(['index','id'=>$model->subject_id]);
     }
 
     /**

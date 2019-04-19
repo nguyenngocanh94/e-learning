@@ -19,13 +19,34 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
         <h1><?= Html::encode($this->title) ?></h1>
         <input type="hidden" id="material_id" value="<?php echo $material->id ?>">
         <input type="hidden" id="lesson_id" value="<?php echo $lesson_id ?>">
+        <!--    hidden modal-->
+        <div class="modal" id="success_modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông Báo!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><?php echo $material->end?></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Tiếp</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--    end hidden modal-->
         <div class="question-list">
             <?php /** @var ComponentQuestion[] $model */foreach ($model as $item): ?>
                 <?php echo $item->out(); ?>
             <?php endforeach; ?>
         </div>
         <div class="col-md-2 offset-10">
-            <button data-id="<?php echo $material->id; ?>" type="button" class="btn btn-primary btn-lg" id="next_stage" disabled>Tiếp tục</button>
+            <button data-id="<?php echo $material->id; ?>" data-toggle="modal" data-target="#success_modal" type="button" class="btn btn-primary btn-lg" id="next_stage" disabled>Tiếp tục</button>
         </div>
         <input type="hidden" id="question_threshold" value="<?php echo $material->question_threshold; ?>">
     </div>

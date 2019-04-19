@@ -17,7 +17,7 @@ $this->title = 'My Yii Application';
                     <img src="<?php HtmlHelper::getUploadsImage($model->image); ?>" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $model->name ?></h5>
-                        <?= Html::a('Tham gia', ['course/index', 'subjectId' => $model->id], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a('Tham gia', ['course/index/'.$model->id], ['class' => 'btn btn-primary']) ?>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@ $this->title = 'My Yii Application';
                             ?></li>
                     </ul>
                     <div class="card-body">
-                        <?= Html::a('Tiếp tục', ['course/index', 'subjectId' => $model['id']], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a('Tiếp tục', ['course/index/'.$model['id']], ['class' => 'btn btn-primary']) ?>
                     </div>
                 </div>
             </div>

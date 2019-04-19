@@ -55,7 +55,12 @@ $('#next_stage').click(function () {
     let data = {
         material_id: $(this).data('id'),
     };
-    AjaxFactory('/material/next', data, function () {
-        location.reload(true);
-    }, me);
+    if($('#success_modal').is(':visible')){
+        return;
+    }else {
+        AjaxFactory('/material/next', data, function () {
+            location.reload(true);
+        }, me);
+    }
+
 });

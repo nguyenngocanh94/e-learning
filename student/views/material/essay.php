@@ -1,19 +1,15 @@
 <?php
 
+use common\models\Question;
 use student\assets\AppAsset;
-use student\models\Question;
-use student\models\SingleQuestion;
 use student\utilities\ProgressTracking;
-use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
-use yii\web\JqueryAsset;
-use yii\web\View;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\LessionS */
+/* @var $searchModel common\models\LessionS */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-/** @var \student\models\Material $material */
+/** @var \common\models\Material $material */
 $this->title = $material->name;
 /** @var int $lesson_id */
 $this->progress = ProgressTracking::lessonProgress($lesson_id);
@@ -21,10 +17,30 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
     <div class="quiz-index">
 
         <h1><?= Html::encode($this->title) ?></h1>
-
+        <!--    hidden modal-->
+        <div class="modal" id="success_modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông Báo!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><?php echo $material->end?></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Tiếp</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--    end hidden modal-->
         <div class="essay-list">
 
-            <?php /** @var Question[] $model */
+            <?php /** @var Question $model */
             foreach ($model as $item):?>
                 <!--    hidden modal-->
                 <div class="modal" id="success_modal" tabindex="-1" role="dialog">
@@ -83,7 +99,7 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
             <?php endforeach; ?>
         </div>
         <div class="col-md-2 offset-10">
-            <button data-id="<?php echo $material->id; ?>" type="button" class="btn btn-primary btn-lg" id="next_stage" disabled>Tiếp tục</button>
+            <button data-id="<?php echo $material->id; ?>" type="button" data-toggle="modal" data-target="#success_modal" class="btn btn-primary btn-lg" id="next_stage" disabled>Tiếp tục</button>
         </div>
     </div>
 <?php

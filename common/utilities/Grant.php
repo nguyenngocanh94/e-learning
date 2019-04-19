@@ -21,4 +21,13 @@ class Grant
         return false;
     }
 
+    public static function checkModel($model){
+        $user_id = \Yii::$app->user->getId();
+        if (($model->create_by ==$user_id) || ($model->update_by ==$user_id)){
+            return true;
+        }
+
+        return false;
+    }
+
 }

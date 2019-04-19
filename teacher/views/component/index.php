@@ -2,23 +2,22 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\EnrollS */
+/* @var $searchModel common\models\ComponentQuestionS */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Enrolls';
+$this->title = Yii::t('app', 'Question Components');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="enroll-index">
+<div class="question-component-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Enroll', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Question Component'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
@@ -28,18 +27,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'course_id',
-            'student_id',
-            'create_at',
-            'update_at',
+            'name',
+            'question_id',
+            'missing',
+            'rank',
             //'create_by',
-            //'update_by',
+            //'create_at',
             //'del_flg',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 
-    <?php Pjax::end(); ?>
 
 </div>

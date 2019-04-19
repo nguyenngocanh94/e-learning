@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Material */
+/* @var $model common\models\QuestionComponent */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Materials'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Question Components'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="material-view">
+<div class="question-component-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -24,7 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('Quản lý tài liệu', ['material/index/'.$model->lesson_id], ['class' => 'btn btn-success']) ?>
+        <?= /** @var \common\models\Material $material */
+        Html::a('Quản lý câu hỏi', ['material/update/'.$material->material_id], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -32,16 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'lesson_id',
-            'type',
+            'question_id',
+            'missing',
             'rank',
-            'limit_time:datetime',
-            'content_url:url',
-            'descriptions:ntext',
-            'create_at',
-            'update_at',
             'create_by',
-            'update_by',
+            'create_at',
             'del_flg',
         ],
     ]) ?>

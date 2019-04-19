@@ -24,7 +24,7 @@ $this->title = $material->name;
         </div>
         <div class="col-md-2">
             <?= /** @var int $lesson_id */
-            Html::a('Material manager', ['material/index', 'lesson_id' => $material->lesson_id], ['class' => 'btn btn-primary']) ?>
+            Html::a('Material manager', ['material/index/'.$material->lesson_id ], ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
     <div class="row quize-list">

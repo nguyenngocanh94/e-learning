@@ -29,6 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     Quên password? <?= Html::a('Click vào đây', ['site/request-password-reset']) ?>.
                     <br>
                     Chưa xác thực email?  <?= Html::a('Click vào đây', ['site/resend-verification-email']) ?>
+                    <br>
+                    Chưa có tài khoản? <?= Html::a('Click vào đây', ['signup']) ?>
                 </div>
 
                 <div class="form-group">

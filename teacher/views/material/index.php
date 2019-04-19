@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <div class="col-md-2">
             <?= /** @var int $lesson_id */
-            Html::a('Lesson manager', ['lesson/index', 'course_id' => $lesson->course_id], ['class' => 'btn btn-primary']) ?>
+            Html::a('Lesson manager', ['lesson/index/'.$lesson->course_id ], ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
     <div class="row subject-list">
@@ -44,7 +44,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $model->name ?></h5>
                         <p class="card-text text-truncate"><?php echo $model->descriptions ?></p>
-                        <?= Html::a('Sửa', ['material/update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a('Xem', ['material/update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                        <?php if (($model->type != Material::VIDEO)||($model->type != Material::POWERPOINT)): ?>
+                            <?= Html::a('Sửa', ['material/edit', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                        <?php endif ?>
                         <?= Html::a('Xóa', ['material/delete', 'id' => $model->id], ['class' => 'btn btn-danger']) ?>
                     </div>
                 </div>

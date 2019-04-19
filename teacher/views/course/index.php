@@ -16,9 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row create-div">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <?= /** @var int $subject_id */
             Html::a('Create Course', ['course/create', 'subject_id' => $subject_id], ['class' => 'btn btn-primary']) ?>
+        </div>
+        <div class="col-md-2">
+            <?= /** @var int $subject_id */
+            Html::a('Subject list', ['/'], ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
     <div class="row">
@@ -31,8 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $model->name ?></h5>
                         <p class="card-text"><?php echo $model->description ?></p>
-                        <?= Html::a('Tạo bài học', ['lesson/index', 'course_id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                        <?= Html::a('<i class="fas fa-chart-bar"></i>', ['lesson/analysis', 'subject_id' => $model->id], ['class' => 'btn btn-info']) ?>
+                        <?= Html::a('<i class="fas fa-plus"></i>', ['lesson/index/'.$model->id], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a('<i class="fas fa-chart-bar"></i>', ['lesson/analysis', 'subject_id' => $model->id], ['class' => 'btn btn-secondary']) ?>
+                        <?= Html::a('<i class="far fa-edit"></i>', ['lesson/update/'.$model->id], ['class' => 'btn btn-info']) ?>
+                        <?= Html::a('<i class="far fa-trash-alt"></i>', ['lesson/delete/'.$model->id], ['class' => 'btn btn-danger']) ?>
                     </div>
                 </div>
             </div>

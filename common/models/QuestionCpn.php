@@ -281,12 +281,22 @@ class ComponentQuestion{
             $li = '';
             foreach ($this->component as $component){
                 if($component->rank == 999){
-                    $li .= '<li class="list-group-item lie-answer" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'.$component->name.'</li>';
+                    $li .= '<li class="list-group-item lie-answer" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'
+                        .$component->name
+                        .
+                        '<a data-method="post" href="/component/update/'.$component->id.'" class="btn" style="float: right"><i class="fas fa-edit"></i></a>'.
+                        '<a data-method="post" href="/component/delete/'.$component->id.'" class="btn" style="float: right"><i class="fas fa-trash-alt"></i></a>'.
+                        '</li>';
                 }else{
                     if ($component->missing == 1){
-                        $li .= '<li class="list-group-item real-answer" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'.$component->name.'</li>';
+                        $li .= '<li class="list-group-item real-answer" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'.$component->name
+                            .
+                        '<a data-method="post" href="/component/update/'.$component->id.'" class="btn" style="float: right"><i class="fas fa-edit"></i></a>'.
+                            '<a data-method="post" href="/component/delete/'.$component->id.'" class="btn" style="float: right"><i class="fas fa-trash-alt"></i></a>'.'</li>';
                     }else{
-                        $li .= '<li class="list-group-item normal" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'.$component->name.'</li>';
+                        $li .= '<li class="list-group-item normal" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'.$component->name.
+                            '<a data-method="post" href="/component/update/'.$component->id.'" class="btn" style="float: right"><i class="fas fa-edit"></i></a>'.
+                            '<a data-method="post" href="/component/delete/'.$component->id.'" class="btn" style="float: right"><i class="fas fa-trash-alt"></i></a>'.'</li>';
                     }
                 }
 

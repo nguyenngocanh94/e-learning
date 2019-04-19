@@ -30,7 +30,15 @@ class ProgressTracking
      * @return mixed
      */
     public static function trackingLessonProcess($course_id){
-        return Enroll::find()->where(['student_id'=>Yii::$app->user->getId(), 'course_id'=> $course_id])->one()->status;
+        $enroll = Enroll::find()
+            ->where(['student_id'=>Yii::$app->user->getId(), 'course_id'=> $course_id])
+            ->orderBy(['update_at'=>SORT_DESC])
+            ->one();
+        if ($enroll){
+            $enroll->status;
+        }
+
+        return 0;
     }
 
     /**
@@ -38,7 +46,15 @@ class ProgressTracking
      * @return mixed
      */
     public static function trackingMaterialProcess($lesson_id){
-        return LessionStatus::find()->where(['student_id'=>Yii::$app->user->getId(), 'lesson_id'=> $lesson_id])->one()->status;
+        $ls = LessionStatus::find()
+            ->where(['student_id'=>Yii::$app->user->getId(), 'lesson_id'=> $lesson_id])
+            ->orderBy(['update_at'=>SORT_DESC])
+            ->one();
+        if ($ls){
+            $ls->status;
+        }
+
+        return 0;
     }
 
     public static function getCurrentMaterial($lesson_id){

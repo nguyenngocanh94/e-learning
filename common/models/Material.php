@@ -17,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property int $limit_time
  * @property int $question_threshold
  * @property string $descriptions
+ * @property string $end
  * @property string $content_url
  * @property string $create_at
  * @property string $update_at
@@ -49,7 +50,7 @@ class Material extends ActiveRecord
     {
         return [
             [['lesson_id', 'type', 'rank', 'create_by', 'update_by', 'del_flg', 'limit_time', 'question_threshold'], 'integer'],
-            [['descriptions'], 'string'],
+            [['descriptions','end'], 'string'],
             [['create_at', 'update_at'], 'safe'],
             [['name', 'content_url'], 'string', 'max' => 255],
         ];
@@ -68,6 +69,7 @@ class Material extends ActiveRecord
             'rank' => 'Rank',
             'descriptions' => 'Descriptions',
             'limit_time' => 'Limit time',
+            'end' => 'End Material',
             'question_threshold' => 'Question Threshold',
             'content_url' => 'Content Url',
             'create_at' => 'Create At',

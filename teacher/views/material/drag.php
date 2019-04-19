@@ -13,9 +13,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="course-index">
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row create-div">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <?= /** @var \common\models\Material $material */
             Html::a('Create Question', ['question/create', 'material_id' => $material->id], ['class' => 'btn btn-primary']) ?>
+        </div>
+        <div class="col-md-2">
+            <?= Html::a('Quản lý tài liệu', ['material/index/'.$material->lesson_id], ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
     <div class="row drag-list">

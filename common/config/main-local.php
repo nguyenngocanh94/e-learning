@@ -27,7 +27,8 @@ return [
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 // override login url
-                'login' => 'site/login'
+                'login' => 'site/login',
+                'signup' => 'site/signup'
             ),
         ],
         'redis'         => [

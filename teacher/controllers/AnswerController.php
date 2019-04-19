@@ -3,6 +3,7 @@
 namespace teacher\controllers;
 
 use common\models\Question;
+use common\utilities\Grant;
 use Yii;
 use common\models\Answer;
 use common\models\AnswerS;
@@ -25,7 +26,7 @@ class AnswerController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['GET','POST'],
                 ],
             ],
         ];
@@ -114,9 +115,12 @@ class AnswerController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        if (!Grant::checkModel($model)){
+            throw new HttpException('403', "Permission");
+        }
+        $model->delete();
+        return $this->redirect(['material/update/','id'=>$model->material_id]);
     }
 
     /**

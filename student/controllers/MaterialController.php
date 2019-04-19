@@ -2,6 +2,8 @@
 
 namespace student\controllers;
 
+use common\models\Course;
+use common\models\Enroll;
 use common\models\Lession;
 use common\utilities\Query;
 use common\models\LessionStatus;
@@ -12,7 +14,9 @@ use common\models\QuestionCpn;
 use Yii;
 use yii\db\Exception;
 use yii\db\StaleObjectException;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -27,12 +31,17 @@ class MaterialController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','next'],
+                'rules' => [
+                    [
+                        'actions' => ['index','next'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ]
                 ],
-            ],
+            ]
         ];
     }
 
@@ -114,19 +123,6 @@ class MaterialController extends Controller
     }
 
     /**
-     * Displays a single Material model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
      * Next stage
      * @return int
      */
@@ -142,12 +138,14 @@ class MaterialController extends Controller
              * @var Material $material
              */
             $material = Material::find()->where(['id'=>$material_id, 'del_flg'=>0])->one();
-
+            $course_id = Lession::findOne($material->lesson_id)->course_id;
             $old = LessionStatus::find()->where(['student_id'=>$current_student_id, 'lesson_id'=>$model->lesson_id])->one();
             try {
                 $old->delete();
             } catch (StaleObjectException $e) {
+                throw new HttpException('500', "");
             } catch (\Throwable $e) {
+                throw new HttpException('500', "");
             }
 
             try{
@@ -156,81 +154,24 @@ class MaterialController extends Controller
                     $model->status = intval($material->rank);
                     $model->lesson_id = intval($material->lesson_id);
                     $model->save();
+                    $total_lesson = Material::find()->where(['lesson_id'=>$material->lesson_id])->count();
+                    if ($model->status >= $total_lesson){
+                        /**
+                         * @var Enroll $enroll
+                         */
+                        $enroll = Enroll::find()->
+                        where(['student_id'=>$current_student_id, 'course_id'=>$course_id])
+                            ->orderBy(['update_at'=>SORT_DESC])->one() ;
+                        $enroll->status = $enroll->status + 1;
+                        $enroll->save();
+                    }
                 }
             }catch (\Exception $e){
-
+                throw new HttpException('500', "");
             }
         }
 
-        return 1;
+        throw new HttpException('500', "Not support");
     }
 
-
-    /**
-     * Creates a new Material model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Material();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Material model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Material model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Material model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Material the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Material::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
 }

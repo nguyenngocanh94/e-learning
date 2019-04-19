@@ -18,7 +18,7 @@ $this->title = 'My Yii Application';
                     <img src="<?php HtmlHelper::getUploadsImage($model->image); ?>" class="card-img-top">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $model->name ?></h5>
-                        <?= Html::a('Tạo khóa học', ['course/index', 'subject_id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a('Tạo khóa học', ['course/index/'.$model->id], ['class' => 'btn btn-primary']) ?>
                     </div>
                 </div>
             </div>

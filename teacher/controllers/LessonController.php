@@ -2,10 +2,12 @@
 
 namespace teacher\controllers;
 
+use common\utilities\Grant;
 use Yii;
 use common\models\Lession;
 use common\models\LessionS;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -23,7 +25,7 @@ class LessonController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['GET'],
                 ],
             ],
         ];
@@ -31,18 +33,18 @@ class LessonController extends Controller
 
     /**
      * Lists all Lession models.
-     * @param $course_id
+     * @param $id
      * @return mixed
      */
-    public function actionIndex($course_id)
+    public function actionIndex($id)
     {
         $searchModel = new LessionS();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['course_id'=>$course_id]);
+        $dataProvider->query->where(['course_id'=>$id]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'course_id' => $course_id
+            'course_id' => $id
         ]);
     }
 
@@ -106,9 +108,12 @@ class LessonController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+        if (!Grant::checkModel($model)){
+            throw new HttpException('403', "Permission");
+        }
+        $model->delete();
+        return $this->redirect(['index', 'id'=>$model->course_id]);
     }
 
     /**

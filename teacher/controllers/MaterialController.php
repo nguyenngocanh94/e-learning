@@ -5,6 +5,7 @@ namespace teacher\controllers;
 use common\models\Lession;
 use common\models\Question;
 use common\models\QuestionCpn;
+use common\utilities\Grant;
 use common\utilities\Query;
 use Yii;
 use common\models\Material;
@@ -28,7 +29,7 @@ class MaterialController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST','GET'],
                 ],
             ],
         ];
@@ -36,19 +37,19 @@ class MaterialController extends Controller
 
     /**
      * Lists all Material models.
-     * @param $lesson_id
+     * @param $id
      * @return mixed
      */
-    public function actionIndex($lesson_id)
+    public function actionIndex($id)
     {
         $searchModel = new MaterialS();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['lesson_id'=>$lesson_id]);
+        $dataProvider->query->where(['lesson_id'=>$id]);
         $dataProvider->query->orderBy(['rank'=>SORT_ASC]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'lesson'=> Lession::findOne($lesson_id)
+            'lesson'=> Lession::findOne($id)
         ]);
     }
 
@@ -138,22 +139,36 @@ class MaterialController extends Controller
                 ]);
         }
 
-
-
     }
 
     /**
-     * Deletes an existing Material model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        if (!Grant::checkModel($model)){
+            throw new HttpException('403', "Permission");
+        }
+        $model->delete();
+        return $this->redirect(['index','id'=>$model->lesson_id]);
+    }
 
-        return $this->redirect(['index']);
+    public function actionEdit($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
