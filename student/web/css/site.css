@@ -214,3 +214,12 @@ a.desc:after {
 .chemistry-element{
     margin-right: 2%;
 }
+
+.the-hint{
+    overflow: auto;
+    padding: 5px;
+    width: 255px;
+    height: 150px;
+    float: left;
+    margin: 5px;
+}
