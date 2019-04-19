@@ -46,7 +46,7 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
             <?php /** @var Question $model */
             foreach ($model as $item):?>
                 <!--    hidden modal-->
-                <div class="modal" id="success_modal" tabindex="-1" role="dialog">
+                <div class="modal" id="hint_modal" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -72,11 +72,9 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
                                 <a class="nav-link active" href="#">Câu Hỏi</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" >Hỗ trợ</a>
+                                <a class="nav-link" data-toggle="modal" data-target="#hint_modal" href="#" >Hỗ trợ</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#">Câu trả lời cũ</a>
-                            </li>
+
                         </ul>
                     </div>
                     <div class="card-body">

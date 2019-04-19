@@ -62,7 +62,7 @@ class MaterialController extends Controller
         $currentStatus = $lessonStatus ? $lessonStatus->status : 0;
 
         if (count($materials) <= $currentStatus){
-            $currentStatus = 1;
+            $currentStatus = 0;
             $lessonStatus->status = 0;
             $lessonStatus->save();
         }
@@ -153,7 +153,7 @@ class MaterialController extends Controller
              */
             $material = Material::find()->where(['id'=>$material_id, 'del_flg'=>0])->one();
             $course_id = Lession::findOne($material->lesson_id)->course_id;
-            $old = LessionStatus::findOne(['student_id'=>$current_student_id, 'lesson_id'=>$model->lesson_id]);
+            $old = LessionStatus::findOne(['student_id'=>$current_student_id, 'lesson_id'=>$material->lesson_id]);
             try{
                 if ($material){
                     if ($old !== null){

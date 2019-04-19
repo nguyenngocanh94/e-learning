@@ -48,6 +48,31 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
                 </div>
             </div>
         </div>
+        <div class="modal" id="hint_modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Thông Báo!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <?php if ($material->end == null): ?>
+                                Các em đã rất cố gắng, xin chúc mừng đã vượt qua!!
+                            <?php else: ?>
+                                <?php echo $material->end?>
+                            <?php endif ?>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-id="<?php echo $material->id; ?>" id="next_stage" type="button" class="btn btn-primary">Tiếp</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--    end hidden modal-->
         <div class="question-list">
             <?php /** @var ComponentQuestion[] $model */foreach ($model as $item): ?>

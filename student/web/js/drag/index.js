@@ -85,3 +85,10 @@ $('.check-drag').click(function () {
         wrongAudio.play();
     }
 });
+
+$('.hint-show').click(function () {
+   $hint = $(this).prev().val();
+   $modal = $('#hint_modal');
+    $modal.find('.modal-body p').text($hint);
+    $modal.modal('show');
+});

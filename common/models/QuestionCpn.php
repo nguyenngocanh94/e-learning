@@ -364,9 +364,17 @@ class ComponentQuestion{
         $endOfMissing = ' 
                 </div>';
 
-        return '<div class="single-question">'.'<div class="row" style="margin-bottom: 5%">'.$start.$chemistryElement.$endParent.$endOfChemistry.$missingCpn.$endOfMissing.'</div>'.' <div class="col-md-2 offset-9">
+        return '<div class="single-question">'.'<div class="row" style="margin-bottom: 5%">'.$start.$chemistryElement.$endParent.$endOfChemistry.$missingCpn.$endOfMissing.'</div>'.
+            '<div class="row">
+                <div class="col-md-2 offset-1">
                     <button type="button" class="btn btn-primary btn-lg check-drag">Kiểm tra</button>
-                </div></div>';
+                </div>
+                <div class="col-md-2">
+                    <input type="hidden" value="'.Html::encode($this->question->hint).'">'.'
+                    <button type="button" class="btn btn-secondary btn-lg hint-show">Hỗ trợ</button>
+                </div>
+            </div>'
+        .'</div>';
     }
 }
 
