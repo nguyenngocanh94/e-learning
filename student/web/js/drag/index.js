@@ -8,26 +8,26 @@ $( function() {
             $("#progress_bar").show();
             $dragger = $(ui.draggable);
             $rank = $place.data('rank');
-            $id = $dragger.data('id');
+            $id = $dragger.data('value');
             AjaxFactoryD('/question/answer', {
-                id: $id,
+                value: $id,
                 type: 'drag',
                 rank: $rank
             }, function ($result) {
                 if ($result.rep === "FALSE"){
-                    $place.addClass('wrong');
+                    $place.addClass('wrongx');
                 }else {
-                    $place.addClass('right');
+                    $place.addClass('rightx');
                     $dragger.css('border', '0px');
                     
                     $numberQ = $place.parent().children('.question-placehold').length;
-                    $numberR = $place.parent().children('.right').length;
-                    $questionId =  $dragger.parent().parent().prev().data('id');
+                    $numberR = $place.parent().children('.rightx').length;
+                    $questionId =  $dragger.parent().parent().prev().children('.mother-all').data('id');
 
                     if ($numberR  === $numberQ){
-                        AjaxFactory('/question/update', {question_id: $questionId,  _csrf: csrfToken}, function($res){
+                        AjaxFactoryN('/question/update', {question_id: $questionId,  _csrf: csrfToken}, function($res){
                             if ($res.rep === "RIGHT"){
-                                $place.parents('.mother-all').addClass('done');
+                                $place.parents('.single-question').addClass('done');
                             }
                         });
                     }
@@ -43,7 +43,7 @@ $( function() {
     $answerPoolsH = $($answerPools[0]).height();
     $answerPoolsW = $($answerPools[0]).width();
     let answerItems = $answerPools.children();
-    let $grids = Math.round(($answerPoolsH * $answerPoolsW)/(150*50));
+    let $grids = Math.round((($answerPoolsH-20) * ($answerPoolsW-50))/(200*50));
     let gridPop = [];
     $answerPools.each(function (index, element) {
         gridPop = [];
@@ -56,8 +56,8 @@ $( function() {
                }
            }
            $range =Math.ceil($grids/8);
-           $newH = (Math.ceil($position/$range)*50)-40;
-           $newW =  Math.abs($position%$range) * 120;
+           $newH = (Math.ceil($position/$range)*50)-50;
+           $newW =  Math.abs($position%$range) * 200;
 
             $(e).css({
                 'left': $newW,
@@ -77,3 +77,11 @@ $( function() {
     setInterval(triggerBtn, 5000);
 
 } );
+
+$('.check-drag').click(function () {
+    if ($(this).parents('.single-question').hasClass('done')){
+        rightAudio.play();
+    }else {
+        wrongAudio.play();
+    }
+});

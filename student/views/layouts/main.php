@@ -69,7 +69,9 @@ AppAsset::register($this);
             y = n.getFullYear();
             m = n.getMonth() + 1;
             d = n.getDate();
-            document.getElementById(\"date\").innerHTML = 'Hôm nay là: ' + d + \"-\" + m + \"-\" + y;");
+            document.getElementById(\"date\").innerHTML = 'Hôm nay là: ' + d + \"-\" + m + \"-\" + y;
+            
+            ");
     ?>
 <?php $this->endBody() ?>
 </body>

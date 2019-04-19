@@ -337,7 +337,7 @@ class ComponentQuestion{
                 }else{
                     if ($component->rank != 999){
                         $missingCpn .=
-                            '<div data-id="'.Html::encode($component->id).'" class="draggable answer-inside" style="display: none">
+                            '<div data-id="'.Html::encode($component->id).'" data-value="'.Html::encode($component->name).'" class="draggable answer-inside" style="display: none">
                             <h3>'.Html::encode($component->name).'</h3>
                         </div>';
 
@@ -361,10 +361,12 @@ class ComponentQuestion{
         }
 
         $endOfChemistry = '</div> </div>';
-        $endOfMissing = ' </div>
+        $endOfMissing = ' 
                 </div>';
 
-        return ' <div class="row" style="margin-bottom: 5%">'.$start.$chemistryElement.$endParent.$endOfChemistry.$missingCpn.$endOfMissing.'</div>';
+        return '<div class="single-question">'.'<div class="row" style="margin-bottom: 5%">'.$start.$chemistryElement.$endParent.$endOfChemistry.$missingCpn.$endOfMissing.'</div>'.' <div class="col-md-2 offset-9">
+                    <button type="button" class="btn btn-primary btn-lg check-drag">Kiểm tra</button>
+                </div></div>';
     }
 }
 

@@ -1,5 +1,6 @@
 let csrfToken = $('meta[name=csrf-token]').attr("content");
-
+const  rightAudio = new Audio('/audio/right');
+const  wrongAudio = new Audio('/audio/wrong');
 function AjaxFactory(url, data, success, me) {
     return $.ajax({
         url: url,

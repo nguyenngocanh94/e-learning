@@ -1,34 +1,35 @@
 setQuestionThreshold($('#question_threshold').val());
 $('.answer-item').click(function () {
     $me = $(this);
-    $diff = $me.parent().siblings('.selected').length;
-    if ($diff<1){
-        $me.addClass('set');
-        $me.parent().addClass('selected');
-        if ( $me.data('requestRunning') ) {
-            return;
-        }
-
-        $me.data('requestRunning', true);
-        $data = {
-            type: 'multi-choice',
-            question_id: $me.parent().data('question'),
-            answer_id: $me.data('answer')
-        };
-        AjaxFactory('/question/answer', $data, function ($result) {
-            if ($result.rep === "FALSE"){
-                $me.removeClass('set');
-                $me.removeClass('right');
-                $me.addClass('wrong');
-            }else {
-                $question = $me.parents('.card');
-                $question.addClass('done-all');
-                $me.removeClass('set');
-                $me.removeClass('wrong');
-                $me.addClass('right');
-            }
-        }, $me);
+    $me.parent().addClass('selected');
+    $me.parents('ul').prev().children('.the-hint').hide();
+    $diff = $me.parent().siblings().children('a').removeClass('wrong');
+    $diff = $me.parent().siblings().children('a').removeClass('right');
+    if ( $me.data('requestRunning') ) {
+        return;
     }
+
+    $me.data('requestRunning', true);
+    $data = {
+        type: 'multi-choice',
+        question_id: $me.parent().data('question'),
+        answer_id: $me.data('answer')
+    };
+    AjaxFactory('/question/answer', $data, function ($result) {
+        if ($result.rep === "FALSE"){
+            $me.removeClass('set');
+            $me.removeClass('right');
+            $me.addClass('wrong');
+            wrongAudio.play();
+        }else {
+            $question = $me.parents('.card');
+            $question.addClass('done-all');
+            $me.removeClass('set');
+            $me.removeClass('wrong');
+            $me.addClass('right');
+            rightAudio.play();
+        }
+    }, $me);
 });
 
 $('.re-select').click(function () {

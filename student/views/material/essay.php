@@ -15,8 +15,11 @@ $this->title = $material->name;
 $this->progress = ProgressTracking::lessonProgress($lesson_id);
 ?>
     <div class="quiz-index">
-        <input type="hidden" id="course_id" value="<?php echo $course_id ?>">
+        <input type="hidden" id="course_id" value="<?php /** @var int $course_id */
+        echo $course_id ?>">
         <h1><?= Html::encode($this->title) ?></h1>
+        <p><?= Html::encode($material->descriptions) ?></p>
+
         <!--    hidden modal-->
         <div class="modal" id="success_modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">

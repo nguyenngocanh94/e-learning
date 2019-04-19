@@ -213,6 +213,7 @@ a.desc:after {
 
 .chemistry-element{
     margin-right: 2%;
+    width: 160px;
 }
 
 .the-hint{
@@ -222,4 +223,10 @@ a.desc:after {
     height: 150px;
     float: left;
     margin: 5px;
+}
+.chemistry-element-parent{
+    padding-bottom: 10px;
+}
+.single-question{
+    margin-bottom: 5%;
 }

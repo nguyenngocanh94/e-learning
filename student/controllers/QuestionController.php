@@ -83,11 +83,11 @@ class QuestionController extends Controller
 
                 case 'drag':
                     $rank = $data['rank'];
-                    $component_id = $data['id'];
+                    $component_value = $data['value'];
 
 
 
-                    if (QuestionComponent::find()->where(['id'=>$component_id, 'rank'=>$rank])->count() > 0){
+                    if (QuestionComponent::find()->where(['name'=>$component_value, 'rank'=>$rank])->count() > 0){
                         return [
                             'rep' => "RIGHT",
                         ];
