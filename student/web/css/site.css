@@ -176,7 +176,7 @@ a.desc:after {
 }
 .answer-pool{
     width: 80%;
-    height: 150px;
+    height: 400px;
     position:relative;
     padding: 10px;
     border: 3px solid blue;

@@ -1,7 +1,6 @@
 <?php
 
 use common\models\Material;
-use common\utilities\HtmlHelper;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */

@@ -305,54 +305,66 @@ class ComponentQuestion{
             return $head.$title.$text.$middle.$li.$end;
         }
 
-        $chemistryElement = '<div data-id="'.$this->question->id.'" class="col-md-12 mother-all" style="text-align: center"> <div  class="chemistry-element-parent" style="display: inline-flex;">';
+        $start = '<div data-id="'.$this->question->id.'" class="col-md-12 mother-all" style="text-align: center"> ';
+        $chemistryElement = '';
+        $parent = '<div  class="chemistry-element-parent" style="display: inline-flex;">';
+        $endParent = '</div>';
+
         $missingCpn = '<div class="col-md-12" style="margin-top: 10px; text-align: center">
                     <div class="answer-pool" style="display: inline-block;">';
+
         foreach ($this->component as $component){
-            if ($component->missing == 0){
-                if ($component->name =='+'){
-                    $chemistryElement .=
-                        '<div class="chemistry-element" style="width: 60px">
+            if($component->name == "XUONG DONG"){
+                $chemistryElement = $parent.$chemistryElement.$endParent;
+                $chemistryElement .= $parent;
+            }else{
+                if ($component->missing == 0){
+                    if ($component->name =='+'){
+                        $chemistryElement .=
+                            '<div class="chemistry-element" style="width: 60px">
                          <i class="fas fa-plus"></i>
                     </div>';
-                }elseif ($component->name == "->"){
-                    $chemistryElement .=
-                        '<div class="chemistry-element">
+                    }elseif ($component->name == "->"){
+                        $chemistryElement .=
+                            '<div class="chemistry-element">
                          <i class="fas fa-arrow-right"></i>
                     </div>';
-                }else{
-                    $chemistryElement .=
-                        '<div class="chemistry-element">'.Html::encode($component->name)
-                        .'</div>';;
-                }
-            }else{
-                if ($component->rank != 999){
-                    $missingCpn .=
-                        '<div data-id="'.Html::encode($component->id).'" class="draggable answer-inside" style="display: none">
-                            <h3>'.Html::encode($component->name).'</h3>
-                        </div>';
-
-                    if (is_numeric($component->name)){
-                        $chemistryElement .= '<div data-rank="'.Html::encode($component->rank).'" class="question-placehold droppable chemistry-element">
-                    </div>';
                     }else{
-                        $chemistryElement .= '<div data-rank="'.Html::encode($component->rank).'" class="question-placehold droppable chemistry-element">
-                    </div>';
+                        $chemistryElement .=
+                            '<div class="chemistry-element">'.Html::encode($component->name)
+                            .'</div>';;
                     }
                 }else{
-                    $missingCpn .=
-                        '<div data-id="'.Html::encode($component->id).'" class="draggable answer-inside" style="display: none">
+                    if ($component->rank != 999){
+                        $missingCpn .=
+                            '<div data-id="'.Html::encode($component->id).'" class="draggable answer-inside" style="display: none">
                             <h3>'.Html::encode($component->name).'</h3>
                         </div>';
-                }
 
+                        if (is_numeric($component->name)){
+                            $chemistryElement .= '<div data-rank="'.Html::encode($component->rank).'" class="question-placehold droppable chemistry-element">
+                    </div>';
+                        }else{
+                            $chemistryElement .= '<div data-rank="'.Html::encode($component->rank).'" class="question-placehold droppable chemistry-element">
+                    </div>';
+                        }
+                    }else{
+                        $missingCpn .=
+                            '<div data-id="'.Html::encode($component->id).'" class="draggable answer-inside" style="display: none">
+                            <h3>'.Html::encode($component->name).'</h3>
+                        </div>';
+                    }
+
+                }
             }
+
         }
+
         $endOfChemistry = '</div> </div>';
         $endOfMissing = ' </div>
                 </div>';
 
-        return ' <div class="row" style="margin-bottom: 5%">'.$chemistryElement.$endOfChemistry.$missingCpn.$endOfMissing.'</div>';
+        return ' <div class="row" style="margin-bottom: 5%">'.$start.$chemistryElement.$endParent.$endOfChemistry.$missingCpn.$endOfMissing.'</div>';
     }
 }
 

@@ -43,7 +43,7 @@ $( function() {
     $answerPoolsH = $($answerPools[0]).height();
     $answerPoolsW = $($answerPools[0]).width();
     let answerItems = $answerPools.children();
-    let $grids = Math.round(($answerPoolsH * $answerPoolsW)/(120*50));
+    let $grids = Math.round(($answerPoolsH * $answerPoolsW)/(150*50));
     let gridPop = [];
     $answerPools.each(function (index, element) {
         gridPop = [];
@@ -55,8 +55,8 @@ $( function() {
                    break;
                }
            }
-           $range =Math.ceil($grids/3);
-           $newH = (Math.ceil($position/$range)*50)-45;
+           $range =Math.ceil($grids/8);
+           $newH = (Math.ceil($position/$range)*50)-40;
            $newW =  Math.abs($position%$range) * 120;
 
             $(e).css({

@@ -1,6 +1,7 @@
 <?php
 
 use common\utilities\Youtube;
+use student\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */

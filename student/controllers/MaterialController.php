@@ -59,11 +59,11 @@ class MaterialController extends Controller
          */
         $lessonStatus = LessionStatus::find()->where(['lesson_id'=>$lesson_id,
             'student_id'=>Yii::$app->user->getId()])->orderBy(['id' => SORT_DESC])->limit(1)->one();
-        $currentStatus = $lessonStatus ? $lessonStatus->status : 1;
+        $currentStatus = $lessonStatus ? $lessonStatus->status : 0;
 
         if (count($materials) <= $currentStatus){
             $currentStatus = 1;
-            $lessonStatus->status = 1;
+            $lessonStatus->status = 0;
             $lessonStatus->save();
         }
 
