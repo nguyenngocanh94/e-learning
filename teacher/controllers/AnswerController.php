@@ -2,18 +2,19 @@
 
 namespace teacher\controllers;
 
-use teacher\models\CourseForm;
+use common\models\Question;
 use Yii;
-use common\models\Course;
-use common\models\CourseS;
+use common\models\Answer;
+use common\models\AnswerS;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CourseController implements the CRUD actions for Course model.
+ * AnswerController implements the CRUD actions for Answer model.
  */
-class CourseController extends Controller
+class AnswerController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -31,62 +32,61 @@ class CourseController extends Controller
     }
 
     /**
-     * Lists all Course models.
-     * @param $subject_id
+     * Lists all Answer models.
      * @return mixed
      */
-    public function actionIndex($subject_id)
+    public function actionIndex()
     {
-        if ($subject_id == null){
-            return;
-        }
-        $searchModel = new CourseS();
+        $searchModel = new AnswerS();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->query->where(['subject_id'=>$subject_id]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'subject_id'=>$subject_id
         ]);
     }
 
     /**
-     * Displays a single Course model.
+     * Displays a single Answer model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $material_id = Question::findOne($model->question_id);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'material_id'=> $material_id->material_id
         ]);
     }
 
     /**
-     * Creates a new Course model.
+     * Creates a new Answer model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param $question_id
      * @return mixed
      */
-    public function actionCreate($subject_id)
+    public function actionCreate($question_id)
     {
-        if ($subject_id == null){
-            return;
+        if (!Question::findOne($question_id)){
+            throw new HttpException('404', 'question id not exist!');
         }
 
-        $model = new CourseForm();
-        if ($model->load(Yii::$app->request->post()) && $model->create()) {
+        $model = new Answer();
+        $model->question_id = $question_id;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'subject_id'=>$subject_id
         ]);
     }
 
     /**
-     * Updates an existing Course model.
+     * Updates an existing Answer model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -106,7 +106,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Deletes an existing Course model.
+     * Deletes an existing Answer model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,15 +120,15 @@ class CourseController extends Controller
     }
 
     /**
-     * Finds the Course model based on its primary key value.
+     * Finds the Answer model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Course the loaded model
+     * @return Answer the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Course::findOne($id)) !== null) {
+        if (($model = Answer::findOne($id)) !== null) {
             return $model;
         }
 

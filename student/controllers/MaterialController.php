@@ -8,7 +8,7 @@ use common\models\LessionStatus;
 use common\models\Material;
 use student\models\Qa;
 use common\models\Question;
-use student\models\QuestionCpn;
+use common\models\QuestionCpn;
 use Yii;
 use yii\db\Exception;
 use yii\db\StaleObjectException;

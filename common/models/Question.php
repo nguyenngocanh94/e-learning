@@ -14,7 +14,7 @@ use yii\db\ActiveRecord;
  * @property int $rank
  * @property string $name
  * @property string $content
- * @property string $assay_content
+ * @property string $essay_content
  * @property string $hint
  * @property string $answer_content
  * @property string $create_at
@@ -40,8 +40,8 @@ class Question extends ActiveRecord
     {
         return [
             [['material_id', 'create_by', 'update_by', 'del_flg', 'rank'], 'integer'],
-            [['create_at', 'update_at'], 'safe'],
-            [['name', 'content', 'answer_content','hint','assay_content'], 'string', 'max' => 255],
+            [['create_at', 'update_at', 'content'], 'safe'],
+            [['name', 'answer_content','hint','essay_content'], 'string', 'max' => 255],
         ];
     }
 
@@ -58,7 +58,7 @@ class Question extends ActiveRecord
             'rank' => Yii::t('app', 'Rank'),
             'hint' => Yii::t('app', 'Hint'),
             'answer_content' => Yii::t('app', 'Answer Content'),
-            'assay_content' => Yii::t('app', 'Assay Content'),
+            'essay_content' => Yii::t('app', 'Essay Content'),
             'create_at' => Yii::t('app', 'Create At'),
             'update_at' => Yii::t('app', 'Update At'),
             'create_by' => Yii::t('app', 'Create By'),

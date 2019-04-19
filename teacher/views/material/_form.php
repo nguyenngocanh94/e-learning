@@ -14,27 +14,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'lesson_id')->textInput() ?>
+    <?= $form->field($model, 'type')
+        ->dropDownList(
+            ['1'=>'Video','2'=>'Powerpoint','3'=>'Trắc nghiệm', '5'=> 'Trắc nghiệm có tự luận', '4'=>'Kéo thả', '6'=>'Tự luận']
+        ); ?>
 
-    <?= $form->field($model, 'type')->textInput() ?>
+    <?= $form->field($model, 'rank')->textInput(['type' => 'number'])->label('Thứ tự hoạt động') ?>
 
-    <?= $form->field($model, 'rank')->textInput() ?>
+    <?= $form->field($model, 'limit_time')->textInput(['type' => 'number'])->label('Số phút học sinh phải học') ?>
 
-    <?= $form->field($model, 'limit_time')->textInput() ?>
+    <?= $form->field($model, 'content_url')->textInput(['maxlength' => true])
+        ->label('Nếu chọn Video, Powerpoint thì dán link vào,
+        ví dụ video: https://www.youtube.com/watch?v=egK0y4b-YhE') ?>
 
-    <?= $form->field($model, 'content_url')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'descriptions')->textarea(['rows' => 6])->label('Mô tả') ?>
 
-    <?= $form->field($model, 'descriptions')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'create_at')->textInput() ?>
-
-    <?= $form->field($model, 'update_at')->textInput() ?>
-
-    <?= $form->field($model, 'create_by')->textInput() ?>
-
-    <?= $form->field($model, 'update_by')->textInput() ?>
-
-    <?= $form->field($model, 'del_flg')->textInput() ?>
+    <?= $form->field($model, 'question_threshold')->textInput(['type' => 'number'])->label('Số câu hỏi học sinh phải trả lời đúng') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

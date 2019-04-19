@@ -1,7 +1,7 @@
 <?php
 
 
-namespace student\models;
+namespace common\models;
 
 
 use yii\helpers\Html;
@@ -88,15 +88,19 @@ class SingleQuestion{
             $this->question->name = $array['name'];
             $this->question->content = $array['content'];
             $this->question->hint = $array['hint'];
+            $this->question->answer_content = $array['answer_content'];
 
         }
         $answer = new Answer();
-        $answer->id = $array['answer_id'];
-        $answer->answer_content = $array['answer'];
-        array_push($this->answers, $answer);
+        if ($array['answer_id']){
+            $answer->id = $array['answer_id'];
+            $answer->answer_content = $array['answer'];
+            array_push($this->answers, $answer);
+        }
+
     }
 
-    public function out(){
+    public function out($flag = null){
         $hint = '<p class="the-hint" style="display: none;">'.$this->question->hint.'</p>';
         $question1 =  '<div class="col-md-3 question-item">
                 <div class="card" style="width: 18rem;">
@@ -105,7 +109,8 @@ class SingleQuestion{
                         <p class="card-text">'.$this->question->content.'</p>'.$hint.'
                     </div>
                     <ul class="list-group list-group-flush">';
-        $question2 = '                     
+
+        $buttonSelect = '                     
                     </ul>
                     <div class="card-body">
                         <a href="#" class="card-link hint-pop">Hỗ trợ</a>
@@ -113,15 +118,48 @@ class SingleQuestion{
                     </div>
                 </div>
             </div>';
+
+        if ($flag){
+            $buttonSelect = '                     
+                    </ul>
+                    <div class="card-body">
+                        '.Html::a('<i class="fas fa-edit"></i>', ['question/update/'.$this->question->id],['class'=>'card-link hint-pop']).'
+                        '.Html::a('<i class="fas fa-trash"></i>', ['question/delete/'.$this->question->id],['class'=>'card-link hint-pop', 'data-method'=>'post']).'
+                        '.Html::a('<i class="fas fa-plus"></i>', ['answer/create?question_id='.$this->question->id],['class'=>'card-link hint-pop']).'
+                    </div>
+                </div>
+            </div>';
+        }
+
         $answerString = '';
        foreach ($this->answers as $answer){
-           $answerString .= '<li class="list-group-item choice" data-question="'.$this->question->id.'">
-                                <a data-answer="'.$answer->id.'" class="btn btn-block btn-secondary answer-item">'. Html::encode($answer->answer_content).
-                                '</a>
+           if ($flag){
+               if ($this->question->answer_content == $answer->answer_content){
+                   $answerString .= '<li class="list-group-item choice" data-question="'.$this->question->id.'">
+                                <a data-answer="'.$answer->id.'" class="btn btn-success">'. Html::encode($answer->answer_content).
+                       '</a>'.
+                       Html::a('<i class="fas fa-trash-alt"></i>', ['answer/delete/'.$answer->id],['class'=>'btn','style'=>'float: right']).
+                       Html::a('<i class="fas fa-edit"></i>', ['answer/update/'.$answer->id],['class'=>'btn', 'style'=>'float: right']).'
                             </li>';
+               }else{
+                   $answerString .= '<li class="list-group-item choice" data-question="'.$this->question->id.'">
+                                <a data-answer="'.$answer->id.'" class="btn btn-danger">'. Html::encode($answer->answer_content).
+                       '</a>'.
+                       '<a data-method="post" href="/answer/delete/'.$answer->id.'" class="btn" style="float: right"><i class="fas fa-trash-alt"></i></a>'.
+                       Html::a('<i class="fas fa-edit"></i>', ['answer/update/'.$answer->id],['class'=>'btn', 'style'=>'float: right']).'
+                            </li>';
+               }
+           }else{
+               $answerString .= '<li class="list-group-item choice" data-question="'.$this->question->id.'">
+                                <a data-answer="'.$answer->id.'" class="btn btn-block btn-secondary answer-item">'. Html::encode($answer->answer_content).
+                   '</a>
+                            </li>';
+           }
+
+
        }
 
-       return $question1.$answerString.$question2;
+       return $question1.$answerString.$buttonSelect;
     }
 }
 
@@ -218,10 +256,45 @@ class ComponentQuestion{
 
 
     public function load(){
-        $this->component = QuestionComponent::find()->where(['question_id'=>$this->question->id, 'del_flg'=>0])->all();
+        $this->component = QuestionComponent::find()->where(['question_id'=>$this->question->id, 'del_flg'=>0])->orderBy(['rank'=>SORT_ASC])->all();
     }
 
-    public function out(){
+    /**
+     * @param null $flg
+     * @return string
+     */
+    public function out($flg = null){
+        if ($flg){
+            $head = '<div class="card" style="width: 18rem; margin-right: 4%">
+            <div class="card-body">';
+            $title = '<h5 class="card-title">'.$this->question->name.'</h5>';
+            $text = '<p class="card-text">'.$this->question->content.'</p>';
+            $middle = '</div>
+            <ul class="list-group list-group-flush component-pool">';
+            $end = '</ul>
+            <div class="card-body">
+                '.Html::a('<i class="fas fa-edit"></i>', ['question/update/'.$this->question->id],['class'=>'card-link hint-pop', 'data-toggle'=>'tooltip','title'=>'edit']).'
+                '.Html::a('<i class="fas fa-trash"></i>', ['question/delete/'.$this->question->id],['class'=>'card-link hint-pop', 'data-method'=>'post']).'
+                '.Html::a('<i class="fas fa-plus"></i>', ['component-question/create?question_id='.$this->question->id],['class'=>'card-link hint-pop']).'
+            </div>
+        </div>';
+            $li = '';
+            foreach ($this->component as $component){
+                if($component->rank == 999){
+                    $li .= '<li class="list-group-item lie-answer" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'.$component->name.'</li>';
+                }else{
+                    if ($component->missing == 1){
+                        $li .= '<li class="list-group-item real-answer" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'.$component->name.'</li>';
+                    }else{
+                        $li .= '<li class="list-group-item normal" data-id="'.$component->id.'"  data-qid="'.$this->question->id.'"  data-rank="'.$component->rank.'">'.$component->name.'</li>';
+                    }
+                }
+
+            }
+
+            return $head.$title.$text.$middle.$li.$end;
+        }
+
         $chemistryElement = '<div data-id="'.$this->question->id.'" class="col-md-12 mother-all" style="text-align: center"> <div  class="chemistry-element-parent" style="display: inline-flex;">';
         $missingCpn = '<div class="col-md-12" style="margin-top: 10px; text-align: center">
                     <div class="answer-pool" style="display: inline-block;">';
@@ -243,7 +316,7 @@ class ComponentQuestion{
                         .'</div>';;
                 }
             }else{
-                if ($component->rank){
+                if ($component->rank != 999){
                     $missingCpn .=
                         '<div data-id="'.Html::encode($component->id).'" class="draggable answer-inside" style="display: none">
                             <h3>'.Html::encode($component->name).'</h3>
@@ -272,3 +345,4 @@ class ComponentQuestion{
         return ' <div class="row" style="margin-bottom: 5%">'.$chemistryElement.$endOfChemistry.$missingCpn.$endOfMissing.'</div>';
     }
 }
+

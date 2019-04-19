@@ -1,6 +1,4 @@
 <?php
-
-
 namespace teacher\models;
 
 

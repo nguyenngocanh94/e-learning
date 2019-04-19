@@ -31,16 +31,18 @@ class LessonController extends Controller
 
     /**
      * Lists all Lession models.
+     * @param $course_id
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($course_id)
     {
         $searchModel = new LessionS();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider->query->where(['course_id'=>$course_id]);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'course_id' => $course_id
         ]);
     }
 

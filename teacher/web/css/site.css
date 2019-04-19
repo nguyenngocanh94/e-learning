@@ -214,3 +214,40 @@ a.desc:after {
 .chemistry-element{
     margin-right: 2%;
 }
+.create-div{
+    margin: 1% 0 2% 0;
+}
+.material-item{
+    height: 12rem;
+}
+
+.bog-warning{
+    border: 2px solid yellow;
+}
+
+.bog-danger{
+    border: 2px solid red;
+}
+
+.bog-light{
+    border: 2px solid lightgrey;
+}
+
+.bog-secondary{
+    border: 2px solid blue;
+}
+
+.bog-primary{
+    border: 2px solid green;
+}
+
+.lie-answer{
+    border-left: 3px solid red !important;
+}
+
+.real-answer{
+    border-left: 3px solid green !important;
+}
+.normal{
+    border-left: 3px solid lightgrey !important;
+}

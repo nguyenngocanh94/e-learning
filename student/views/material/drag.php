@@ -1,14 +1,14 @@
 <?php
 
+use common\models\ComponentQuestion;
 use student\assets\AppAsset;
-use student\models\ComponentQuestion;
 use student\utilities\ProgressTracking;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-/** @var \student\models\Material $material */
+/** @var \common\models\Material $material */
 $this->title = $material->name;
 /** @var int $lesson_id */
 $this->progress = ProgressTracking::lessonProgress($lesson_id);
