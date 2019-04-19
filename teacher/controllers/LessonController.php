@@ -3,6 +3,7 @@
 namespace teacher\controllers;
 
 use common\utilities\Grant;
+use teacher\models\LessonForm;
 use Yii;
 use common\models\Lession;
 use common\models\LessionS;
@@ -81,16 +82,17 @@ class LessonController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($course_id)
     {
-        $model = new Lession();
+        $model = new LessonForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $lesson = $model->create()) {
+            return $this->redirect(['view', 'id' => $lesson->id]);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'course_id'=>$course_id
         ]);
     }
 

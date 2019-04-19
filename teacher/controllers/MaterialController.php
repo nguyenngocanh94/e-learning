@@ -32,11 +32,11 @@ class MaterialController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['view','index', 'create','update','delete'],
+                        'actions' => ['view','index', 'create','update','delete','edit'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['view','index', 'create','update','delete'],
+                        'actions' => ['view','index', 'create','update','delete','edit'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -106,11 +106,10 @@ class MaterialController extends Controller
     }
 
     /**
-     * Updates an existing Material model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \yii\db\Exception
      */
     public function actionUpdate($id)
     {
@@ -128,8 +127,12 @@ class MaterialController extends Controller
                 ]);
                 break;
             case Material::ESSAY:
-                $question = $this->findQuestion($id);
-                return $this->redirect(['question/update', 'id'=>$question->id]);
+                $questions = Question::find()->where(['material_id'=>$model->id])->all();
+
+                return $this->render('essay',[
+                    'models'=> $questions,
+                    'material'=>$model
+                ]);
                 break;
             case Material::QUIZ:
                 $questionList = QuestionCpn::convert(Query::getInstance()
@@ -212,7 +215,7 @@ class MaterialController extends Controller
      */
     protected function findQuestion($material_id)
     {
-        if (($model = Question::find()->cache('120')->where(['material_id'=>$material_id])->one()) !== null) {
+        if (($model = Question::find()->where(['material_id'=>$material_id])->one()) !== null) {
             return $model;
         }
 

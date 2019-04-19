@@ -1,10 +1,15 @@
-setQuestionThreshold($('#threshold_question').val());
+setQuestionThreshold($('#question_threshold').val());
 $('.answer-item').click(function () {
     $me = $(this);
     $diff = $me.parent().siblings('.selected').length;
     if ($diff<1){
         $me.addClass('set');
         $me.parent().addClass('selected');
+        if ( $me.data('requestRunning') ) {
+            return;
+        }
+
+        $me.data('requestRunning', true);
         $data = {
             type: 'multi-choice',
             question_id: $me.parent().data('question'),
@@ -17,17 +22,12 @@ $('.answer-item').click(function () {
                 $me.addClass('wrong');
             }else {
                 $question = $me.parents('.card');
-                if ($question.hasClass('done-essay')){
-                    $question.removeClass('done-essay');
-                    $question.addClass('done-all');
-                }else{
-                    $question.addClass('done-choice');
-                }
+                $question.addClass('done-all');
                 $me.removeClass('set');
                 $me.removeClass('wrong');
                 $me.addClass('right');
             }
-        });
+        }, $me);
     }
 });
 
@@ -50,45 +50,11 @@ $('.hint-pop').click(function () {
     }
 });
 
-$('.submit-essay').click(function () {
-    var me = $(this);
-    e.preventDefault();
-
-    if ( me.data('requestRunning') ) {
-        return;
-    }
-
-    me.data('requestRunning', true);
-    $theEssay = $(this).parent().prev().prev().children('.essay').children().children('.essay-answer');
-    $theEssayValue = $theEssay.val();
-    $question = $(this).parents('.card');
-    $questionId = $question.data('question');
-    if ($theEssayValue != ''){
-        AjaxFactory('/question/answer',
-            {
-                type: 'essay',
-                question_id: $questionId,
-                essay: $theEssayValue
-            }, function ($res) {
-                if ($res.rep === 'RIGHT'){
-                    $theEssay.addClass('right');
-                    if ($question.hasClass('done-choice')){
-                        $question.removeClass('done-choice');
-                        $question.addClass('done-all');
-                    }else{
-                        $question.addClass('done-essay');
-                    }
-                }else {
-                    $theEssay.addClass('wrong');
-                }
-            }, me)
-    }
-});
 
 let triggerBtn = function () {
     $rQ = $('.done-all').length;
     if ($rQ >= $questionThreshold){
-        $('#next_stage').prop('disabled', false);
+        $('#pop_modal').prop('disabled', false);
     }
 };
 

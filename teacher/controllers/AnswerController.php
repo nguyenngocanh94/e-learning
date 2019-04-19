@@ -117,11 +117,13 @@ class AnswerController extends Controller
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+        $question = Question::findOne($model->question_id);
+
         if (!Grant::checkModel($model)){
             throw new HttpException('403', "Permission");
         }
         $model->delete();
-        return $this->redirect(['material/update/','id'=>$model->material_id]);
+        return $this->redirect(['material/update/','id'=>$question->material_id]);
     }
 
     /**

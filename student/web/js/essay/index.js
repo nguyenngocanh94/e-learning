@@ -1,7 +1,6 @@
 $('.send-essay').click(function () {
     $btn = $(this);
     let me = $(this);
-    e.preventDefault();
 
     if ( me.data('requestRunning') ) {
         return;

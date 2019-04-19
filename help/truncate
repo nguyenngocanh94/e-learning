@@ -1,0 +1,12 @@
+truncate answer;
+truncate course;
+truncate enroll;
+truncate essay_answer;
+truncate lession;
+truncate lession_status;
+truncate material;
+truncate qa;
+truncate question;
+truncate question_status;
+truncate question_component;
+truncate quiz;

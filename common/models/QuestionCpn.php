@@ -113,8 +113,8 @@ class SingleQuestion{
         $buttonSelect = '                     
                     </ul>
                     <div class="card-body">
-                        <a href="#" class="card-link hint-pop">Hỗ trợ</a>
-                        <a href="#" class="card-link re-select">Chọn lại</a>
+                        <button class="card-link hint-pop btn">Hỗ trợ</button>
+                        <button class="card-link re-select btn">Chọn lại</a>
                     </div>
                 </div>
             </div>';
@@ -196,7 +196,7 @@ class QuizAssayQuestion{
     public function out(){
         $hint = '<p class="the-hint" style="display: none;">'.$this->question->hint.'</p>';
         $submit = ' <div class="card-body">
-                    <a href="#" class="btn btn-block btn-primary submit-essay">submit</a>
+                    <button class="btn btn-block btn-primary submit-essay">submit</button>
                 </div>';
 
         $question1 =  '<div class="col-md-3 question-item">
@@ -209,8 +209,8 @@ class QuizAssayQuestion{
         $question2 = '                     
                     </ul>
                     <div class="card-body">
-                        <a href="#" class="card-link hint-pop">Hỗ trợ</a>
-                        <a href="#" class="card-link re-select">Chọn lại</a>
+                        <button class="card-link hint-pop btn">Hỗ trợ</button>
+                        <button class="card-link re-select btn">Chọn lại</button>
                     </div>
                     '.$submit.'
                 </div>
@@ -275,7 +275,7 @@ class ComponentQuestion{
             <div class="card-body">
                 '.Html::a('<i class="fas fa-edit"></i>', ['question/update/'.$this->question->id],['class'=>'card-link hint-pop', 'data-toggle'=>'tooltip','title'=>'edit']).'
                 '.Html::a('<i class="fas fa-trash"></i>', ['question/delete/'.$this->question->id],['class'=>'card-link hint-pop', 'data-method'=>'post']).'
-                '.Html::a('<i class="fas fa-plus"></i>', ['component-question/create?question_id='.$this->question->id],['class'=>'card-link hint-pop']).'
+                '.Html::a('<i class="fas fa-plus"></i>', ['component/create?question_id='.$this->question->id],['class'=>'card-link hint-pop']).'
             </div>
         </div>';
             $li = '';

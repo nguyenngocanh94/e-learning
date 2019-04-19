@@ -8,7 +8,7 @@ use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
-class CourseForm extends Model
+class CourseForm extends Course
 {
     public $main_image;
     public $sub_image1;
@@ -56,7 +56,8 @@ class CourseForm extends Model
             $course->image1 = $this->image1;
             $course->image2 = $this->image2;
             $course->image3 = $this->image3;
-            return $course->save();
+            $course->save(false);
+            return $course;
         }
 
         return null;

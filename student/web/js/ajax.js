@@ -1,18 +1,20 @@
 let csrfToken = $('meta[name=csrf-token]').attr("content");
-function AjaxFactory(url,  data, success, me) {
+
+function AjaxFactory(url, data, success, me) {
     return $.ajax({
         url: url,
         headers: {'X-CSRF-Token': csrfToken},
         type: 'post',
         data: data,
         success: success,
-        complete: function() {
+        complete: function () {
             me.data('requestRunning', false);
         }
 
     });
 }
-function AjaxFactoryD(url,  data, success, me) {
+
+function AjaxFactoryD(url, data, success, me) {
     return $.ajax({
         url: url,
         headers: {'X-CSRF-Token': csrfToken},
@@ -24,43 +26,42 @@ function AjaxFactoryD(url,  data, success, me) {
     });
 }
 
-let popNextButton = function popNextButton() {
-    $('#next_stage').prop('disabled', false);
-};
-const $limitTime = $('#threshold_time_global').val();
-const $questionThreshold = $('#threshold_question_global').val();
-if ($limitTime > 0){
-    setTimeout(popNextButton, $limitTime);
-}
-if ($questionThreshold == 0){
-    $('#next_stage').prop('disabled', false);
-    $('#next_stage_quiz').prop('disabled', false);
+function AjaxFactoryN(url, data, success) {
+    return $.ajax({
+        url: url,
+        headers: {'X-CSRF-Token': csrfToken},
+        type: 'post',
+        data: data,
+        success: success
+
+    });
 }
 
-function setQuestionThreshold(value) {
-    $('#threshold_question_global').val(value);
-}
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-$('#next_stage').click(function () {
-    let me = $(this);
-    if ( me.data('requestRunning') ) {
-        return;
-    }
 
-    me.data('requestRunning', true);
+function setQuestionThreshold(value) {
+    $('#threshold_question_global').val(value);
+}
+
+
+$('#pop_modal').click(function () {
+    $modal = $('#success_modal');
+    $modal.modal('show');
+});
+
+$('#next_stage').click(function () {
     let data = {
         material_id: $(this).data('id'),
     };
-    if($('#success_modal').is(':visible')){
-        return;
-    }else {
-        AjaxFactory('/material/next', data, function () {
+    AjaxFactoryN('/material/next', data, function ($res) {
+        if ($res.rep === "success") {
+            window.location.href = '/lession/index?course_id=' + $('#course_id').val();
+        } else {
             location.reload(true);
-        }, me);
-    }
-
+        }
+    });
 });

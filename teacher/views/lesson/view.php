@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a(Yii::t('app', 'Lesson list'), ['index', 'id' => $model->course_id], ['class' => 'btn btn-primary']) ?>
     </p>
 
     <?= DetailView::widget([

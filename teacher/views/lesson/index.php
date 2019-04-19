@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-2">
             <?= /** @var int $subject_id */
             /** @var int $course_id */
-            Html::a('Create Course', ['lesson/create', 'course_id' => $course_id], ['class' => 'btn btn-primary']) ?>
+            Html::a('Create lesson', ['lesson/create', 'course_id' => $course_id], ['class' => 'btn btn-primary']) ?>
         </div>
         <div class="col-md-2">
             <?= Html::a('Trang chủ', ['/'], ['class' => 'btn btn-primary']) ?>

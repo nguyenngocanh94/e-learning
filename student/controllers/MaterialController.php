@@ -19,6 +19,7 @@ use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * MaterialController implements the CRUD actions for Material model.
@@ -73,8 +74,8 @@ class MaterialController extends Controller
          */
         $currentMaterial = count($temp) > 0 ? array_slice(
             $temp, 0)[0] : null;
+        $course_id = Lession::findOne($lesson_id)->course_id;
         if ($currentMaterial == null){
-            $course_id = Lession::findOne($lesson_id)->course_id;
             return $this->redirect(array('lession/index', 'course_id'=>$course_id));
         }
 
@@ -82,6 +83,8 @@ class MaterialController extends Controller
             if ($currentMaterial->type == Material::VIDEO){
                 return $this->render('video', [
                     'model' => $currentMaterial,
+                    'material' => $currentMaterial,
+                    'course_id'=>$course_id,
                     'qa' => Qa::find()->where(['material_id'=>$currentMaterial->id, 'is_approved'=>1])->all()
                 ]);
             }
@@ -92,6 +95,7 @@ class MaterialController extends Controller
                 return $this->render('quiz', [
                     'model' => $questionList,
                     'material' => $currentMaterial,
+                    'course_id'=>$course_id,
                     'lesson_id' => $lesson_id
                 ]);
 
@@ -103,10 +107,12 @@ class MaterialController extends Controller
             return $this->render('drag', [
                 'model' => $questionList,
                 'material' => $currentMaterial,
+                'course_id'=>$course_id,
                 'lesson_id' => $lesson_id
             ]);
         }elseif ($currentMaterial->type == Material::QUIZ_ESSAY){
             try {
+
                 $questionList = QuestionCpn::convert(Query::getInstance()
                     ->query('getQuestionNAnswer.sql', ["material_id" => $currentMaterial->id]), 'quizE');
             } catch (Exception $e) {
@@ -114,6 +120,7 @@ class MaterialController extends Controller
             return $this->render('quizE', [
                 'model' => $questionList,
                 'material' => $currentMaterial,
+                'course_id'=>$course_id,
                 'lesson_id' => $lesson_id
             ]);
         }else{
@@ -121,6 +128,7 @@ class MaterialController extends Controller
             return $this->render('essay', [
                 'model' => $questionList,
                 'material' => $currentMaterial,
+                'course_id'=>$course_id,
                 'lesson_id' => $lesson_id
             ]);
         }
@@ -129,8 +137,8 @@ class MaterialController extends Controller
     }
 
     /**
-     * Next stage
-     * @return int
+     * @return array|int
+     * @throws HttpException
      */
     public function actionNext()
     {
@@ -145,23 +153,18 @@ class MaterialController extends Controller
              */
             $material = Material::find()->where(['id'=>$material_id, 'del_flg'=>0])->one();
             $course_id = Lession::findOne($material->lesson_id)->course_id;
-            $old = LessionStatus::find()->where(['student_id'=>$current_student_id, 'lesson_id'=>$model->lesson_id])->one();
-            try {
-                if ($old){
-                    $old->delete();
-                }
-            } catch (StaleObjectException $e) {
-                throw new HttpException('501', "");
-            } catch (\Throwable $e) {
-                throw new HttpException('502', $e);
-            }
-
+            $old = LessionStatus::findOne(['student_id'=>$current_student_id, 'lesson_id'=>$model->lesson_id]);
             try{
                 if ($material){
-                    $model->student_id = $current_student_id;
-                    $model->status = intval($material->rank);
-                    $model->lesson_id = intval($material->lesson_id);
-                    $model->save();
+                    if ($old !== null){
+                        $old->status = intval($material->rank);
+                        $old->save();
+                    }else{
+                        $model->student_id = $current_student_id;
+                        $model->status = intval($material->rank);
+                        $model->lesson_id = intval($material->lesson_id);
+                        $model->save();
+                    }
                     $total_lesson = Material::find()->where(['lesson_id'=>$material->lesson_id])->count();
                     if ($model->status >= $total_lesson){
                         /**
@@ -170,10 +173,16 @@ class MaterialController extends Controller
                         $enroll = Enroll::find()->
                         where(['student_id'=>$current_student_id, 'course_id'=>$course_id])
                             ->orderBy(['update_at'=>SORT_DESC])->one() ;
-                        $enroll->status = $enroll->status + 1;
-                        $enroll->save();
+                        $lessonTotal = Lession::find()->where(['course_id'=>$course_id])->count();
+                        if ($enroll->status < $lessonTotal){
+                            $enroll->status = $enroll->status + 1;
+                            $enroll->save();
+                        }
+                        \Yii::$app->response->format = Response::FORMAT_JSON;
 
-                        return "success";
+                        return [
+                            'rep' => "success",
+                        ];
                     }
                 }
             }catch (\Exception $e){

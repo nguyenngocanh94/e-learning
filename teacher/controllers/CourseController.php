@@ -41,7 +41,7 @@ class CourseController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['POST','GET'],
                 ],
             ],
         ];
@@ -92,8 +92,9 @@ class CourseController extends Controller
         }
 
         $model = new CourseForm();
-        if ($model->load(Yii::$app->request->post()) && $model->create()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post()) && $saved = $model->create()) {
+
+            return $this->redirect(['index', 'id'=>$saved->subject_id ]);
         }
 
         return $this->render('create', [
@@ -112,13 +113,19 @@ class CourseController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $form = new CourseForm();
+        $form->id = $model->id;
+        $form->name = $model->name;
+        $form->description = $model->description;
+        $form->teacher_id = $model->teacher_id;
+        $form->description = $model->description;
+        if ($form->load(Yii::$app->request->post()) && $form->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
+            'subject_id'=> $model->subject_id
         ]);
     }
 

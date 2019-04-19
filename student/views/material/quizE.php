@@ -15,7 +15,7 @@ $this->title = $material->name;
 $this->progress = ProgressTracking::lessonProgress($lesson_id);
 ?>
     <div class="quiz-index">
-
+        <input type="hidden" id="course_id" value="<?php echo $course_id ?>">
         <h1><?= Html::encode($this->title) ?></h1>
         <!--    hidden modal-->
         <div class="modal" id="success_modal" tabindex="-1" role="dialog">
@@ -31,7 +31,7 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
                         <p><?php echo $material->end?></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Tiếp</button>
+                        <button data-id="<?php echo $material->id; ?>" id="next_stage" type="button" class="btn btn-primary">Tiếp</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                     </div>
                 </div>
@@ -45,9 +45,10 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
         </div>
         <input type="hidden" id="question_threshold" value="<?php echo $material->question_threshold; ?>">
         <div class="col-md-2 offset-10">
-            <button data-id="<?php echo $material->id; ?>" data-toggle="modal" data-target="#success_modal" type="button" class="btn btn-primary btn-lg" id="next_stage" disabled>Tiếp tục</button>
+            <button data-id="<?php echo $material->id; ?>"  type="button" class="btn btn-primary btn-lg" id="pop_modal" disabled>Tiếp tục</button>
         </div>
     </div>
 <?php
-$this->registerJsFile("/js/quiz/index.js", ['depends' => [AppAsset::className()]]);
+$this->registerJsFile("/js/quiz/quizE.js", ['depends' => [AppAsset::className()]]);
+$this->registerJsFile("/js/common.js", ['depends' => [AppAsset::className()]]);
 ?>

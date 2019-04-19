@@ -52,6 +52,7 @@ class EnrollController extends Controller
             try{
                 $model->student_id = $current_student_id;
                 $model->course_id = intval($enroll_course_id);
+                $model->status = 0;
                 $model->save();
             }catch (\Exception $e){
                 throw new HttpException('500',"actionCreate Enroll");

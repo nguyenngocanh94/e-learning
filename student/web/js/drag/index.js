@@ -1,4 +1,4 @@
-setQuestionThreshold($('#threshold_question').val());
+setQuestionThreshold($('#question_threshold').val());
 $( function() {
     $( ".draggable" ).draggable();
     $( ".droppable" ).droppable({
@@ -70,7 +70,7 @@ $( function() {
     let triggerBtn = function () {
         $rQ = $('.done').length;
         if ($rQ >= $questionThreshold){
-            $('#next_stage').prop('disabled', false);
+            $('#pop_modal').prop('disabled', false);
         }
     };
 
