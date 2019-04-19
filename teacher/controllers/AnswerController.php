@@ -7,6 +7,7 @@ use common\utilities\Grant;
 use Yii;
 use common\models\Answer;
 use common\models\AnswerS;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -23,6 +24,20 @@ class AnswerController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['view','create','update','delete'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['view', 'create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -32,20 +47,6 @@ class AnswerController extends Controller
         ];
     }
 
-    /**
-     * Lists all Answer models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new AnswerS();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single Answer model.
@@ -64,10 +65,9 @@ class AnswerController extends Controller
     }
 
     /**
-     * Creates a new Answer model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
      * @param $question_id
-     * @return mixed
+     * @return string|\yii\web\Response
+     * @throws HttpException
      */
     public function actionCreate($question_id)
     {
@@ -107,11 +107,12 @@ class AnswerController extends Controller
     }
 
     /**
-     * Deletes an existing Answer model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {

@@ -60,6 +60,12 @@ class MaterialController extends Controller
             'student_id'=>Yii::$app->user->getId()])->orderBy(['id' => SORT_DESC])->limit(1)->one();
         $currentStatus = $lessonStatus ? $lessonStatus->status : 1;
 
+        if (count($materials) <= $currentStatus){
+            $currentStatus = 1;
+            $lessonStatus->status = 1;
+            $lessonStatus->save();
+        }
+
         $temp  = array_filter($materials,
             function ($v) use ($currentStatus) { return $v->rank == $currentStatus+1; });
         /**
@@ -141,11 +147,13 @@ class MaterialController extends Controller
             $course_id = Lession::findOne($material->lesson_id)->course_id;
             $old = LessionStatus::find()->where(['student_id'=>$current_student_id, 'lesson_id'=>$model->lesson_id])->one();
             try {
-                $old->delete();
+                if ($old){
+                    $old->delete();
+                }
             } catch (StaleObjectException $e) {
-                throw new HttpException('500', "");
+                throw new HttpException('501', "");
             } catch (\Throwable $e) {
-                throw new HttpException('500', "");
+                throw new HttpException('502', $e);
             }
 
             try{
@@ -164,14 +172,16 @@ class MaterialController extends Controller
                             ->orderBy(['update_at'=>SORT_DESC])->one() ;
                         $enroll->status = $enroll->status + 1;
                         $enroll->save();
+
+                        return "success";
                     }
                 }
             }catch (\Exception $e){
-                throw new HttpException('500', "");
+                throw new HttpException('503', "");
             }
         }
 
-        throw new HttpException('500', "Not support");
+        return 1;
     }
 
 }

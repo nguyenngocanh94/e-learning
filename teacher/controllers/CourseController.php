@@ -7,6 +7,7 @@ use teacher\models\CourseForm;
 use Yii;
 use common\models\Course;
 use common\models\CourseS;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -23,6 +24,20 @@ class CourseController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['view','index', 'create','update','delete'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['view','index', 'create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

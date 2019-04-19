@@ -10,6 +10,7 @@ use common\utilities\Query;
 use Yii;
 use common\models\Material;
 use common\models\MaterialS;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -26,6 +27,21 @@ class MaterialController extends Controller
     public function behaviors()
     {
         return [
+
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['view','index', 'create','update','delete'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['view','index', 'create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

@@ -12,6 +12,7 @@ use common\models\Question;
 use common\utilities\Grant;
 use Yii;
 use common\models\QuestionComponent;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -26,6 +27,20 @@ class ComponentController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['view', 'create','update','delete','order'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['view', 'create','update','delete','order'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -36,10 +51,10 @@ class ComponentController extends Controller
     }
 
     /**
-     * Displays a single QuestionComponent model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return string
+     * @throws HttpException
+     * @throws NotFoundHttpException
      */
     public function actionView($id)
     {
@@ -144,11 +159,12 @@ class ComponentController extends Controller
     }
 
     /**
-     * Deletes an existing QuestionComponent model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {

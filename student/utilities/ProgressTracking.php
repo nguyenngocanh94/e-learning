@@ -14,8 +14,7 @@ class ProgressTracking
 {
     public static function courseProgress($course_id){
         $lessonTotal = Lession::find()->where(['course_id'=>$course_id, 'del_flg'=>0])->count();
-
-        return $lessonTotal > 0 ?round((self::trackingLessonProcess($course_id) / $lessonTotal) * 100) : 100;
+        return $lessonTotal > 0 ? round((self::trackingLessonProcess($course_id) / $lessonTotal) * 100) : 100;
     }
 
     public static function lessonProgress($lesson_id){
@@ -32,10 +31,10 @@ class ProgressTracking
     public static function trackingLessonProcess($course_id){
         $enroll = Enroll::find()
             ->where(['student_id'=>Yii::$app->user->getId(), 'course_id'=> $course_id])
-            ->orderBy(['update_at'=>SORT_DESC])
+            ->orderBy(['update_at'=>SORT_DESC])->limit(1)
             ->one();
         if ($enroll){
-            $enroll->status;
+            return $enroll->status;
         }
 
         return 0;

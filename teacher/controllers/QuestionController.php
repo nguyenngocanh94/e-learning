@@ -7,6 +7,7 @@ use common\utilities\Grant;
 use Yii;
 use common\models\Question;
 use common\models\QuestionS;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
@@ -23,6 +24,20 @@ class QuestionController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['view', 'create','update','delete'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['view', 'create','update','delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

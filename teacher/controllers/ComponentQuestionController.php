@@ -5,6 +5,7 @@ namespace teacher\controllers;
 
 use Yii;
 use common\models\QuestionComponent;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +21,20 @@ class ComponentQuestionController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['order'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['order'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
