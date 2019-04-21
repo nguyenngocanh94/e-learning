@@ -1,4 +1,5 @@
-let csrfToken = $('meta[name=csrf-token]').attr("content");
+const csrfToken = $('meta[name=csrf-token]').attr("content");
+const url = $(location).attr("href");
 const  rightAudio = new Audio('/audio/right');
 const  wrongAudio = new Audio('/audio/wrong');
 function AjaxFactory(url, data, success, me) {
@@ -38,6 +39,18 @@ function AjaxFactoryN(url, data, success) {
     });
 }
 
+function AjaxFactoryG(url, data, success) {
+    return $.ajax({
+        url: url,
+        headers: {'X-CSRF-Token': csrfToken},
+        type: 'get',
+        data: data,
+        success: success
+
+    });
+}
+
+
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
@@ -66,3 +79,15 @@ $('#next_stage').click(function () {
         }
     });
 });
+$('#search-course').keyup(_.debounce(function(){
+    let keyS = {
+        course_name : $(this).val(),
+        adv_data : $('#adv-info').serialize()
+    };
+    if (url.includes('course/index')){
+        let ajax = AjaxFactoryG('/course/search', keyS, function ($res) {
+            $('.course-list').html($res);
+        });
+    }
+} , 500));
+

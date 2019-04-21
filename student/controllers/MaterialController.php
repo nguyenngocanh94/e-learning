@@ -47,9 +47,9 @@ class MaterialController extends Controller
     }
 
     /**
-     * Lists all Material models.
      * @param $lesson_id
-     * @return mixed
+     * @return string|Response
+     * @throws HttpException
      */
     public function actionIndex($lesson_id)
     {
@@ -79,61 +79,78 @@ class MaterialController extends Controller
             return $this->redirect(array('lession/index', 'course_id'=>$course_id));
         }
 
-        if ($currentMaterial->type == Material::VIDEO){
-            if ($currentMaterial->type == Material::VIDEO){
+        switch ($currentMaterial->type){
+            case Material::VIDEO:
                 return $this->render('video', [
                     'model' => $currentMaterial,
                     'material' => $currentMaterial,
                     'course_id'=>$course_id,
                     'qa' => Qa::find()->where(['material_id'=>$currentMaterial->id, 'is_approved'=>1])->all()
                 ]);
-            }
-        }elseif ($currentMaterial->type == Material::QUIZ){
-            try {
-                $questionList = QuestionCpn::convert(Query::getInstance()
-                    ->query('getQuestionNAnswer.sql', ["material_id" => $currentMaterial->id]));
-                return $this->render('quiz', [
+                break;
+
+            case Material::POWERPOINT:
+                return $this->render('powerpoint', [
+                    'model' => $currentMaterial,
+                    'material' => $currentMaterial,
+                    'course_id'=>$course_id,
+                ]);
+                break;
+
+            case Material::QUIZ:
+                try {
+                    $questionList = QuestionCpn::convert(Query::getInstance()
+                        ->query('getQuestionNAnswer.sql', ["material_id" => $currentMaterial->id]));
+                    return $this->render('quiz', [
+                        'model' => $questionList,
+                        'material' => $currentMaterial,
+                        'course_id'=>$course_id,
+                        'lesson_id' => $lesson_id
+                    ]);
+
+                } catch (Exception $e) {
+                }
+                break;
+
+            case Material::QUIZ_ESSAY:
+                try {
+
+                    $questionList = QuestionCpn::convert(Query::getInstance()
+                        ->query('getQuestionNAnswer.sql', ["material_id" => $currentMaterial->id]), 'quizE');
+                } catch (Exception $e) {
+                }
+                return $this->render('quizE', [
+                    'model' => $questionList,
+                    'material' => $currentMaterial,
+                    'course_id'=>$course_id,
+                    'lesson_id' => $lesson_id
+                ]);
+                break;
+
+
+            case Material::DRAG:
+                $questionList = QuestionCpn::convertCpn(Question::find()->where(['material_id'=>$currentMaterial->id])->all());
+                return $this->render('drag', [
+                    'model' => $questionList,
+                    'material' => $currentMaterial,
+                    'course_id'=>$course_id,
+                    'lesson_id' => $lesson_id
+                ]);
+                break;
+
+            case Material::ESSAY:
+                $questionList = Question::find()->where(['material_id'=>$currentMaterial->id])->all();
+                return $this->render('essay', [
                     'model' => $questionList,
                     'material' => $currentMaterial,
                     'course_id'=>$course_id,
                     'lesson_id' => $lesson_id
                 ]);
 
-            } catch (Exception $e) {
-            }
+                break;
 
-        }elseif ($currentMaterial->type == Material::DRAG){
-            $questionList = QuestionCpn::convertCpn(Question::find()->where(['material_id'=>$currentMaterial->id])->all());
-            return $this->render('drag', [
-                'model' => $questionList,
-                'material' => $currentMaterial,
-                'course_id'=>$course_id,
-                'lesson_id' => $lesson_id
-            ]);
-        }elseif ($currentMaterial->type == Material::QUIZ_ESSAY){
-            try {
-
-                $questionList = QuestionCpn::convert(Query::getInstance()
-                    ->query('getQuestionNAnswer.sql', ["material_id" => $currentMaterial->id]), 'quizE');
-            } catch (Exception $e) {
-            }
-            return $this->render('quizE', [
-                'model' => $questionList,
-                'material' => $currentMaterial,
-                'course_id'=>$course_id,
-                'lesson_id' => $lesson_id
-            ]);
-        }else{
-            $questionList = Question::find()->where(['material_id'=>$currentMaterial->id])->all();
-            return $this->render('essay', [
-                'model' => $questionList,
-                'material' => $currentMaterial,
-                'course_id'=>$course_id,
-                'lesson_id' => $lesson_id
-            ]);
+            default: throw new HttpException('404'); break;
         }
-
-        return 1;
     }
 
     /**
@@ -158,6 +175,7 @@ class MaterialController extends Controller
                 if ($material){
                     if ($old !== null){
                         $old->status = intval($material->rank);
+                        $model = $old;
                         $old->save();
                     }else{
                         $model->student_id = $current_student_id;

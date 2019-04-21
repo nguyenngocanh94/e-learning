@@ -114,6 +114,21 @@ class QuestionController extends Controller
 
                     return ['rep'=>'RIGHT'];
                     break;
+                case 'short-essay':
+                    $questionId = $data['question_id'];
+                    $essay = $data['essay_content'];
+                    $question = Question::findOne($questionId);
+                    if (!$question){
+                        return ['rep'=>"FALSE"];
+                    }else{
+                        if ($question->essay_content == $essay){
+                            return ['rep'=>'RIGHT'];
+                        }
+                    }
+
+                    return ['rep'=>'FALSE'];
+                    break;
+
 
                 default:
                     \Yii::$app->response->statusCode = Response::$httpStatuses[421];

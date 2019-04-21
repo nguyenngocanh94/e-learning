@@ -12,18 +12,40 @@ use Yii;
 
 class ProgressTracking
 {
+    /**
+     * @param $course_id
+     * @return float|int
+     */
     public static function courseProgress($course_id){
-        $lessonTotal = Lession::find()->where(['course_id'=>$course_id, 'del_flg'=>0])->count();
+        $lessonTotal = self::getTotalLesson($course_id);
         return $lessonTotal > 0 ? round((self::trackingLessonProcess($course_id) / $lessonTotal) * 100) : 100;
     }
 
+    /**
+     * @param $lesson_id
+     * @return float|int
+     */
     public static function lessonProgress($lesson_id){
-        $materialTotal = Material::find()->where(['lesson_id'=>$lesson_id, 'del_flg'=>0])->count();
+        $materialTotal = self::getTotalMaterial($lesson_id);
 
         return $materialTotal > 0 ? round((self::trackingMaterialProcess($lesson_id) / $materialTotal) * 100): 100;
     }
 
+    /**
+     * @param $course_id
+     * @return int|string
+     */
+    public static function getTotalLesson($course_id){
+        return Lession::find()->where(['course_id'=>$course_id, 'del_flg'=>0])->count();
+    }
 
+    /**
+     * @param $lesson_id
+     * @return int|string
+     */
+    public static function getTotalMaterial($lesson_id){
+        return  Material::find()->where(['lesson_id'=>$lesson_id, 'del_flg'=>0])->count();
+    }
     /**
      * @param $course_id
      * @return mixed
@@ -50,7 +72,7 @@ class ProgressTracking
             ->orderBy(['update_at'=>SORT_DESC])
             ->one();
         if ($ls){
-            $ls->status;
+            return $ls->status;
         }
 
         return 0;

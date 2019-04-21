@@ -52,7 +52,7 @@ $('.re-select').click(function () {
 
 $('.hint-pop').click(function () {
     $parent = $(this).parents('.card');
-    if ($parent.children('ul').children('.selected').length > 0) {
+    if (($parent.children('ul').children('.selected').length > 0) || ($parent.children('ul').children('li.essay').children().children('input').val() != '')) {
         $parent.children('.card-body-title').children('p.the-hint').show();
     }
 });
@@ -72,7 +72,7 @@ $('.submit-essay').click(function () {
     if ($theEssayValue != '') {
         AjaxFactory('/question/answer',
             {
-                type: 'essay',
+                type: 'short-essay',
                 question_id: $questionId,
                 essay_content: $theEssayValue
             }, function ($res) {

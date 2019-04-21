@@ -114,7 +114,6 @@ class SingleQuestion{
                     </ul>
                     <div class="card-body">
                         <button class="card-link hint-pop btn">Hỗ trợ</button>
-                        <button class="card-link re-select btn">Chọn lại</a>
                     </div>
                 </div>
             </div>';
@@ -210,7 +209,6 @@ class QuizAssayQuestion{
                     </ul>
                     <div class="card-body">
                         <button class="card-link hint-pop btn">Hỗ trợ</button>
-                        <button class="card-link re-select btn">Chọn lại</button>
                     </div>
                     '.$submit.'
                 </div>

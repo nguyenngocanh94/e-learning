@@ -28,11 +28,11 @@ class LessonController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['view','index', 'create','update','delete'],
+                        'actions' => ['view','index', 'create','update','delete','analysis'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['view','index', 'create','update','delete'],
+                        'actions' => ['view','index', 'create','update','delete','analysis'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -117,11 +117,12 @@ class LessonController extends Controller
     }
 
     /**
-     * Deletes an existing Lession model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
@@ -147,5 +148,9 @@ class LessonController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    public function actionAnalysis($id){
+
     }
 }

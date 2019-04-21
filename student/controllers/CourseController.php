@@ -23,15 +23,22 @@ class CourseController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index', 'view'],
+                'only' => ['index', 'view','search'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
+                        'actions' => ['index', 'view','search'],
                         'allow' => true,
                         'roles' => ['@'],
                     ]
                 ],
-            ]
+            ],
+
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'search' => ['get'],
+                ],
+            ],
         ];
     }
 
@@ -55,6 +62,29 @@ class CourseController extends Controller
             'models'=>$models,
         ]);
     }
+
+    public function actionSearch()
+    {
+        $this->layout = null;
+        if (Yii::$app->request->isAjax){
+            $data = Yii::$app->request->get();
+            $course_name = $data['course_name'];
+            $course_info = [];
+            parse_str($data['adv_data'], $course_info);
+            $adv_type = $course_info['type'];
+            $adv_subject_id = $course_info['subject_id'];
+            $adv_teacher_name = $course_info['teacher_name'];
+            $student_id = Yii::$app->user->getId();
+            $result = Query::getInstance()->query('searchCourse.sql',
+                [':student_id'=> $student_id,':name'=>$course_name, ':teacher_name'=>$adv_teacher_name,':subject_id'=>$adv_subject_id, ':type'=>$adv_type]);
+
+            return $this->renderPartial('search',
+                ['models'=>$result]);
+
+        }
+
+    }
+
 
     /**
      * Displays a single Course model.

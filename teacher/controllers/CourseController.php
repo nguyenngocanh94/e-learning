@@ -3,6 +3,8 @@
 namespace teacher\controllers;
 
 use common\utilities\Grant;
+use common\utilities\Query;
+use student\utilities\ProgressTracking;
 use teacher\models\CourseForm;
 use Yii;
 use common\models\Course;
@@ -28,11 +30,11 @@ class CourseController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['view','index', 'create','update','delete'],
+                        'actions' => ['view','index', 'create','update','delete','analysis'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['view','index', 'create','update','delete'],
+                        'actions' => ['view','index', 'create','update','delete','analysis'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -130,11 +132,12 @@ class CourseController extends Controller
     }
 
     /**
-     * Deletes an existing Course model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return \yii\web\Response
+     * @throws HttpException
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
@@ -160,5 +163,26 @@ class CourseController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    /**
+     * @param $id
+     * @return string
+     * @throws HttpException
+     * @throws \yii\db\Exception
+     */
+    public function actionAnalysis($id){
+        $course = Course::findOne($id);
+        if (!Grant::checkModel($course)){
+            throw new HttpException('401', 'Unauthorized client error');
+        }
+        $enrollStudents = Query::getInstance()->query('getEnrolledStudentList.sql', ['course_id'=>$id]);
+        $total = ProgressTracking::getTotalLesson($id);
+
+        return $this->render('analysis', [
+            'models' => $enrollStudents,
+            'course'=> $course,
+            'total'=>$total
+        ]);
     }
 }

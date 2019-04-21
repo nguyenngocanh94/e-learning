@@ -14,7 +14,8 @@ $this->title = $model->name;
 
     <h1><?= Html::encode($model->name) ?></h1>
     <p><?= Html::encode($model->descriptions) ?></p>
-    <input type="hidden" id="course_id" value="<?php echo $course_id ?>">
+    <input type="hidden" id="course_id" value="<?php /** @var int $course_id */
+    echo $course_id ?>">
     <!--    hidden modal-->
     <div class="modal" id="success_modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -29,7 +30,8 @@ $this->title = $model->name;
                     <p><?php echo $model->end?></p>
                 </div>
                 <div class="modal-footer">
-                    <button data-id="<?php echo $material->id; ?>" id="next_stage" type="button" class="btn btn-primary">Tiếp</button>
+                    <button data-id="<?php /** @var \common\models\Material $material */
+                    echo $material->id; ?>" id="next_stage" type="button" class="btn btn-primary">Tiếp</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>

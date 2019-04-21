@@ -1,0 +1,1 @@
+select s.id,s.name, e.course_id, e.status, e.create_at, e.update_at  from enroll e left join student s on s.id = e.student_id where e.course_id = :course_id

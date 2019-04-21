@@ -1,6 +1,7 @@
 <?php
 namespace teacher\controllers;
 
+use common\models\Course;
 use common\models\SubjectS;
 use common\models\TeacherLoginForm;
 use Yii;
@@ -64,10 +65,11 @@ class SiteController extends Controller
     {
         $searchModel = new SubjectS();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $course = Course::find()->where(['teacher_id'=>Yii::$app->user->getId()])->all();
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'course'=>$course
         ]);
     }
 
