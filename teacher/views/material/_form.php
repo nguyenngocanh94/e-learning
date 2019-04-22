@@ -1,5 +1,6 @@
 <?php
 
+use mihaildev\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -28,7 +29,11 @@ use yii\widgets\ActiveForm;
         ví dụ video: https://www.youtube.com/watch?v=egK0y4b-YhE') ?>
 
     <?= $form->field($model, 'descriptions')->textarea(['rows' => 6])->label('Mô tả') ?>
-    <?= $form->field($model, 'end')->textarea(['rows' => 6])->label('Kết luận') ?>
+    <?= $form->field($model, 'end')->textarea(['rows' => 6])->label('Kết luận')->widget(CKEditor::className(),[
+        'editorOptions' => [
+            'preset' => 'basic', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
+            'inline' => false, //по умолчанию false
+        ],]) ?>
 
     <?= $form->field($model, 'question_threshold')->textInput(['type' => 'number'])->label('Số câu hỏi học sinh phải trả lời đúng') ?>
 

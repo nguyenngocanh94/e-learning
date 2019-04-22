@@ -29,7 +29,7 @@ $this->title = $model->name;
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body end-game">
                         <p><?php echo $model->end?></p>
                     </div>
                     <div class="modal-footer">

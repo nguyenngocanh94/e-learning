@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\utilities\Time;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -27,7 +28,7 @@ class QuestionStatus extends ActiveRecord
     const DRAG = 2;
     const TEXT = 3;
 
-    const DONE = 100;
+    const DONE = 1;
 
     /**
      * {@inheritdoc}
@@ -63,5 +64,17 @@ class QuestionStatus extends ActiveRecord
             'create_at' => Yii::t('app', 'Create At'),
             'del_flg' => Yii::t('app', 'Del Flg'),
         ];
+    }
+
+    /**
+     * @param bool $insert
+     * @return bool
+     */
+    public function beforeSave($insert)
+    {
+        if ($insert){
+            $this->create_at = Time::Now();
+        }
+        return parent::beforeSave($insert);
     }
 }

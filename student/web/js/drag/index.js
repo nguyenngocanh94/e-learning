@@ -9,7 +9,7 @@ $( function() {
             $dragger = $(ui.draggable);
             $rank = $place.data('rank');
             $id = $dragger.data('value');
-            AjaxFactoryD('/question/answer', {
+            AjaxFactoryDG('/question/answer', {
                 value: $id,
                 type: 'drag',
                 rank: $rank

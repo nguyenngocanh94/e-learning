@@ -40,6 +40,7 @@ class HtmlHelper extends BaseHtml
 
         echo $src;
     }
+
     public static function getAudio($file)
     {
         $imagePath = \Yii::getAlias('@student').'/audio' . '/' . $file;
@@ -57,4 +58,12 @@ class HtmlHelper extends BaseHtml
         fpassthru($fp);
     }
 
+    public static function getFavicon(){
+        $imagePath = \Yii::getAlias('@common').'/assets' . '/' . 'favicon.png';
+        $imageData = base64_encode(file_get_contents($imagePath));
+
+        $src = 'data: '.mime_content_type($imagePath).';base64,'.$imageData;
+
+        echo $src;
+    }
 }

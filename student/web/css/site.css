@@ -284,3 +284,8 @@ a.desc:after {
         min-width: 400px;
     }
 }
+
+.answer-item:active{
+    color: black !important;
+    background-color: white !important;
+}

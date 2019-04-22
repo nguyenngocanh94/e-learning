@@ -21,6 +21,7 @@ AppAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
+    <link rel="shortcut icon" href="<?php HtmlHelper::getFavicon() ?>" type="image/x-icon" />
     <title><?= Html::encode($this->title) ?></title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -52,16 +53,16 @@ AppAsset::register($this);
             </a>
             <div class="user_info">
                 <div class="row" style="width: 100%">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <?php if (isset($this->progress)): ?>
-                            <div class="progress progress-at-nav">
+                            <div class="progress progress-at-nav" style="float: right; margin-top: 8px">
                                 <div class="progress-bar" style="width: <?php echo $this->progress ?>%;"
                                      role="progressbar" aria-valuenow="25" aria-valuemin="0"
                                      aria-valuemax="100"><?php echo $this->progress ?></div>
                             </div>
                         <?php endif; ?>
                     </div>
-                    <div class="col-md-4 offset-2">
+                    <div class="col-md-4">
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarToggleExternalSearch" aria-controls="navbarToggleExternalSearch"
                                 aria-expanded="false" aria-label="Toggle navigation">

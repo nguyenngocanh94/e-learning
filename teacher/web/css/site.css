@@ -251,3 +251,14 @@ a.desc:after {
 .normal{
     border-left: 3px solid lightgrey !important;
 }
+
+.student-item:hover{
+    cursor: pointer;
+}
+.table{
+    margin-top: 5%;
+}
+
+.wrap-text{
+    word-wrap: break-word;
+}

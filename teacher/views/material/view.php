@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'limit_time:datetime',
             'content_url:url',
             'descriptions:ntext',
+            'end:ntext',
             'create_at',
             'update_at',
             'create_by',

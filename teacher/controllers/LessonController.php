@@ -2,7 +2,11 @@
 
 namespace teacher\controllers;
 
+use common\models\Course;
+use common\models\Student;
 use common\utilities\Grant;
+use common\utilities\Query;
+use student\utilities\ProgressTracking;
 use teacher\models\LessonForm;
 use Yii;
 use common\models\Lession;
@@ -28,11 +32,11 @@ class LessonController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['view','index', 'create','update','delete','analysis'],
+                        'actions' => ['view','index', 'create','update','delete','analysis','analysis-all'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['view','index', 'create','update','delete','analysis'],
+                        'actions' => ['view','index', 'create','update','delete','analysis','analysis-all'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -150,7 +154,30 @@ class LessonController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    public function actionAnalysis($id){
+    public function actionAnalysis($student_id, $course_id){
+        $student = Student::findOne($student_id);
+        $course = Course::findOne($course_id);
+        if (!$student || !$course){
+            throw new HttpException(404);
+        }
+        $result = Query::getInstance()->query('getStudentAnalysisInCourse.sql', [':student_id'=>$student_id,':course_id'=>$course_id]);
+        return $this->render('analysis', [
+            'models' => $result,
+            'student' => $student,
+            'course'=>$course
 
+        ]);
+    }
+
+    public function actionAnalysisAll($lesson_id){
+        $lesson = Lession::findOne($lesson_id);
+        if (!$lesson){
+            throw new HttpException(404);
+        }
+        $result = Query::getInstance()->query('getStudentAnalysisAll.sql', [':lesson_id'=>$lesson_id]);
+        return $this->render('analysis-all', [
+            'models' => $result,
+            'lesson'=>$lesson
+        ]);
     }
 }

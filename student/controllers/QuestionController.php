@@ -51,7 +51,7 @@ class QuestionController extends Controller
     public function actionAnswer()
     {
         if (Yii::$app->request->isAjax){
-            $data = Yii::$app->request->post();
+            $data = Yii::$app->request->get();
             $current_student_id = Yii::$app->user->getId();
             \Yii::$app->response->format = Response::FORMAT_JSON;
             switch ($data['type']){

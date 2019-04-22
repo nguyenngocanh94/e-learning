@@ -21,7 +21,8 @@
         "yiisoft/yii2-redis": "~2.0.0",
         "ext-fileinfo": "*",
         "yiisoft/yii2-jui": "~2.0.0",
-        "ext-http": "*"
+        "ext-http": "*",
+        "mihaildev/yii2-ckeditor": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

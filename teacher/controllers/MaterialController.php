@@ -2,9 +2,11 @@
 
 namespace teacher\controllers;
 
+use common\models\EssayAnswer;
 use common\models\Lession;
 use common\models\Question;
 use common\models\QuestionCpn;
+use common\models\Student;
 use common\utilities\Grant;
 use common\utilities\Query;
 use Yii;
@@ -32,11 +34,11 @@ class MaterialController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['view','index', 'create','update','delete','edit'],
+                        'actions' => ['view','index', 'create','update','delete','edit','analysis'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['view','index', 'create','update','delete','edit'],
+                        'actions' => ['view','index', 'create','update','delete','edit','analysis'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -220,5 +222,28 @@ class MaterialController extends Controller
         }
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    /**
+     * @param $student_id
+     * @param $lesson_id
+     * @return string
+     * @throws HttpException
+     * @throws \yii\db\Exception
+     */
+    public function actionAnalysis($student_id, $lesson_id){
+        $student = Student::findOne($student_id);
+        $lesson = Lession::findOne($lesson_id);
+        if (!$student || !$lesson){
+            throw new HttpException(404, 'Not found student');
+        }
+        $result1 =  Query::getInstance()->query('getEssayAnwer.sql', [':student_id'=>$student_id,':lesson_id'=>$lesson_id]);
+        $result = Query::getInstance()->query('getStudentAnalysisInLesson.sql', [':student_id'=>$student_id,':lesson_id'=>$lesson_id]);
+        return $this->render('analysis', [
+            'models' => $result,
+            'student' => $student,
+            'essays'=>$result1,
+            'lesson'=>$lesson
+        ]);
     }
 }

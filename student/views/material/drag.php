@@ -32,7 +32,7 @@ $this->progress = ProgressTracking::lessonProgress($lesson_id);
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body end-game">
                         <p>
                             <?php if ($material->end == null): ?>
                                 Các em đã rất cố gắng, xin chúc mừng đã vượt qua!!

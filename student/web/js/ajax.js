@@ -16,11 +16,38 @@ function AjaxFactory(url, data, success, me) {
     });
 }
 
+function AjaxFactoryGet(url, data, success, me) {
+    return $.ajax({
+        url: url,
+        headers: {'X-CSRF-Token': csrfToken},
+        type: 'get',
+        data: data,
+        success: success,
+        complete: function () {
+            me.data('requestRunning', false);
+        }
+
+    });
+}
+
+
 function AjaxFactoryD(url, data, success, me) {
     return $.ajax({
         url: url,
         headers: {'X-CSRF-Token': csrfToken},
         type: 'post',
+        data: data,
+        success: success,
+        complete: me
+
+    });
+}
+
+function AjaxFactoryDG(url, data, success, me) {
+    return $.ajax({
+        url: url,
+        headers: {'X-CSRF-Token': csrfToken},
+        type: 'get',
         data: data,
         success: success,
         complete: me
@@ -49,8 +76,6 @@ function AjaxFactoryG(url, data, success) {
 
     });
 }
-
-
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
@@ -91,3 +116,4 @@ $('#search-course').keyup(_.debounce(function(){
     }
 } , 500));
 
+$('.end-game').children('p').children('a').attr('target','_blank');

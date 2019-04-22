@@ -15,7 +15,7 @@ $('.answer-item').click(function () {
         question_id: $me.parent().data('question'),
         answer_id: $me.data('answer')
     };
-    AjaxFactory('/question/answer', $data, function ($result) {
+    AjaxFactoryGet('/question/answer', $data, function ($result) {
         if ($result.rep === "FALSE") {
             $me.removeClass('set');
             $me.removeClass('right');
@@ -70,7 +70,7 @@ $('.submit-essay').click(function () {
     $question = $(this).parents('.card');
     $questionId = $question.data('question');
     if ($theEssayValue != '') {
-        AjaxFactory('/question/answer',
+        AjaxFactoryGet('/question/answer',
             {
                 type: 'short-essay',
                 question_id: $questionId,

@@ -13,7 +13,7 @@ $('.send-essay').click(function () {
         '  Đang gửi ...');
     $btn.prop('disabled', true);
     $smForm = $(this).parent().prev().children().children('form');
-    AjaxFactory('/question/answer', $smForm.serializeArray(), function () {
+    AjaxFactoryGet('/question/answer', $smForm.serialize(), function () {
         $btn.html('<i class="fas fa-check"></i> Đã gửi câu trả lời');
 
     }, me);

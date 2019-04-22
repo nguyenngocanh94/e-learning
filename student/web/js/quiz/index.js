@@ -1,5 +1,6 @@
 setQuestionThreshold($('#question_threshold').val());
-$('.answer-item').click(function () {
+$('.answer-item').click(function (e) {
+    e.preventDefault();
     $me = $(this);
     $me.parent().addClass('selected');
     $me.parents('ul').prev().children('.the-hint').hide();
@@ -15,7 +16,8 @@ $('.answer-item').click(function () {
         question_id: $me.parent().data('question'),
         answer_id: $me.data('answer')
     };
-    AjaxFactory('/question/answer', $data, function ($result) {
+
+    AjaxFactoryA('/question/answer', $data, $me).done(function ($result) {
         if ($result.rep === "FALSE"){
             $me.removeClass('set');
             $me.removeClass('right');
@@ -29,8 +31,25 @@ $('.answer-item').click(function () {
             $me.addClass('right');
             rightAudio.play();
         }
-    }, $me);
+    });
 });
+
+
+function AjaxFactoryA(url, data, me) {
+    let k = $.Deferred();
+    return $.ajax({
+        async:true,
+        url: url,
+        headers: {'X-CSRF-Token': csrfToken},
+        type: 'get',
+        data: data,
+    }).done(function ($result) {
+        me.data('requestRunning', false);
+        k.resolve();
+    });
+
+    return k.promise();
+}
 
 $('.re-select').click(function () {
     $parent = $(this).parents('.card');
