@@ -51,7 +51,7 @@ class Material extends ActiveRecord
         return [
             [['lesson_id', 'type', 'rank', 'create_by', 'update_by', 'del_flg', 'limit_time', 'question_threshold'], 'integer'],
             [['descriptions','end'], 'string'],
-            [['create_at', 'update_at'], 'safe'],
+            [['create_at', 'update_at','content_url'], 'safe'],
             [['name'], 'string', 'max' => 255],
         ];
     }
