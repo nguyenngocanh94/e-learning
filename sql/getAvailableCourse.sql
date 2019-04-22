@@ -4,5 +4,5 @@ select
 from
     course c
         left join
-    enroll on enroll.course_id = c.id and enroll.student_id = 3 left join subject s on s.id = c.subject_id left join teacher t on t.id = c.teacher_id left join student st on st.id = enroll.student_id
-where if(:subject_id = 0, true, c.subject_id = :subject_id) and c.subject_id = 1
+    enroll on enroll.course_id = c.id and enroll.student_id = :student_id left join subject s on s.id = c.subject_id left join teacher t on t.id = c.teacher_id left join student st on st.id = enroll.student_id
+where if(:subject_id = 0, true, c.subject_id = :subject_id)

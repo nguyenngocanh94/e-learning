@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         <h5 class="card-title"><?php echo $model->name ?></h5>
                         <p class="card-text"><?php echo $model->overview ?></p>
                         <?= Html::a('<i class="fas fa-plus"></i>', ['material/index/'.$model->id], ['class' => 'btn btn-primary']) ?>
-                        <?= Html::a('<i class="fas fa-edit"></i>', ['lesson/update', 'id' => $model->id], ['class' => 'btn btn-secondary']) ?>
                         <?= Html::a('<i class="far fa-chart-bar"></i>', ['lesson/analysis-all', 'lesson_id' => $model->id], ['class' => 'btn btn-info']) ?>
                         <?= Html::a('<i class="far fa-trash-alt"></i>', ['lesson/delete/'.$model->id], ['class' => 'btn btn-danger']) ?>
                     </div>
