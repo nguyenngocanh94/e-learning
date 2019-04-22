@@ -80,6 +80,7 @@ class SignupForm extends Model
             $user->class = $this->class;
             $user->contact = $this->contact;
             $user->phone = $this->phone;
+            $user->status = Student::STATUS_ACTIVE;
             $user->image = $this->imagePath;
             $user->setPassword($this->password);
             $user->generateAuthKey();

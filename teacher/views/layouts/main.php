@@ -73,7 +73,6 @@ $this->registerJs(
             
             ");
 ?>
-?>
 
 </body>
 </html>

@@ -108,7 +108,7 @@ class QuestionController extends Controller
                     $essayAnw = new EssayAnswer();
                     $essayAnw->content = $essay;
                     $essayAnw->question_id = $questionId;
-                    $essayAnw->student_id = Yii::$app->user->getId();
+                    $essayAnw->student_id = $current_student_id;
 
                     $essayAnw->save();
 
@@ -117,6 +117,12 @@ class QuestionController extends Controller
                 case 'short-essay':
                     $questionId = $data['question_id'];
                     $essay = $data['essay_content'];
+                    $essayAnw = new EssayAnswer();
+                    $essayAnw->content = $essay;
+                    $essayAnw->question_id = $questionId;
+                    $essayAnw->student_id = $current_student_id;
+
+                    $essayAnw->save();
                     $question = Question::findOne($questionId);
                     if (!$question){
                         return ['rep'=>"FALSE"];
