@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property int $status
  * @property int $lesson_id
  * @property int $student_id
+ * @property string $time
  * @property int $update_by
  * @property int $create_by
  * @property string $update_at
@@ -36,7 +37,7 @@ class LessionStatus extends ActiveRecord
     {
         return [
             [['status', 'student_id', 'update_by', 'create_by', 'del_flg','lesson_id'], 'integer'],
-            [['update_at', 'create_at'], 'safe'],
+            [['update_at', 'create_at','time'], 'safe'],
         ];
     }
 
@@ -50,6 +51,7 @@ class LessionStatus extends ActiveRecord
             'status' => Yii::t('app', 'Status'),
             'student_id' => Yii::t('app', 'Student ID'),
             'lesson_id' => Yii::t('app', 'Lesson ID'),
+            'time' => Yii::t('app', 'Time'),
             'update_by' => Yii::t('app', 'Update By'),
             'create_by' => Yii::t('app', 'Create By'),
             'update_at' => Yii::t('app', 'Update At'),

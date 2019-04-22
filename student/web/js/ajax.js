@@ -100,6 +100,7 @@ $('#pop_modal').click(function () {
 $('#next_stage').click(function () {
     let data = {
         material_id: $(this).data('id'),
+        time: $('#clock').text()
     };
     AjaxFactoryN('/material/next', data, function ($res) {
         if ($res.rep === "success") {
@@ -122,3 +123,4 @@ $('#search-course').keyup(_.debounce(function(){
 } , 500));
 
 $('.end-game').children('p').children('a').attr('target','_blank');
+$('.the-hint').children('p').children('a').attr('target','_blank');

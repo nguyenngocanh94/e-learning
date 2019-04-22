@@ -8,6 +8,7 @@ use common\models\Lession;
 use common\utilities\Query;
 use common\models\LessionStatus;
 use common\models\Material;
+use common\utilities\Time;
 use student\models\Qa;
 use common\models\Question;
 use common\models\QuestionCpn;
@@ -165,6 +166,8 @@ class MaterialController extends Controller
             $data = Yii::$app->request->post();
             $current_student_id = Yii::$app->user->getId();
             $material_id = $data['material_id'];
+            $time = $data['time'];
+
             /**
              * @var Material $material
              */
@@ -175,12 +178,14 @@ class MaterialController extends Controller
                 if ($material){
                     if ($old !== null){
                         $old->status = intval($material->rank);
+                        $old->time = Time::Sum(Time::Time($old->time), Time::Time($time))->toString();
                         $model = $old;
                         $old->save();
                     }else{
                         $model->student_id = $current_student_id;
                         $model->status = intval($material->rank);
                         $model->lesson_id = intval($material->lesson_id);
+                        $model->time = Time::Time($time)->toString();
                         $model->save();
                     }
                     $total_lesson = Material::find()->where(['lesson_id'=>$material->lesson_id])->count();
@@ -204,7 +209,7 @@ class MaterialController extends Controller
                     }
                 }
             }catch (\Exception $e){
-                throw new HttpException('503', "");
+                throw new HttpException('503', $e);
             }
         }
 

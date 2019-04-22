@@ -101,7 +101,7 @@ class SingleQuestion{
     }
 
     public function out($flag = null){
-        $hint = '<p class="the-hint" style="display: none;">'.$this->question->hint.'</p>';
+        $hint = '<div class="the-hint" style="display: none;">'.$this->question->hint.'</div>';
         $question1 =  '<div class="col-md-3 question-item">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body card-body-title">
@@ -193,7 +193,7 @@ class QuizAssayQuestion{
     }
 
     public function out(){
-        $hint = '<p class="the-hint" style="display: none;">'.$this->question->hint.'</p>';
+        $hint = '<div class="the-hint" style="display: none;">'.$this->question->hint.'</div>';
         $submit = ' <div class="card-body">
                     <button class="btn btn-block btn-primary submit-essay">submit</button>
                 </div>';

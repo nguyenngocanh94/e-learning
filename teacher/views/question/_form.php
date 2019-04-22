@@ -1,5 +1,6 @@
 <?php
 
+use mihaildev\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -18,7 +19,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'rank')->textInput() ?>
 
-    <?= $form->field($model, 'hint')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'hint')->textInput(['maxlength' => true])->widget(CKEditor::className(),[
+        'editorOptions' => [
+            'preset' => 'basic', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
+            'inline' => false, //по умолчанию false
+        ],]) ?>
 
     <?= $form->field($model, 'answer_content')->textInput(['maxlength' => true]) ?>
 

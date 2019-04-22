@@ -66,7 +66,7 @@ $('.re-select').click(function () {
 $('.hint-pop').click(function () {
     $parent = $(this).parents('.card');
     if ($parent.children('ul').children('.selected').length > 0){
-        $parent.children('.card-body-title').children('p.the-hint').show();
+        $parent.children('.card-body-title').children('div.the-hint').show();
     }
 });
 
