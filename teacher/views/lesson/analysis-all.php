@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <th scope="col">Học sinh</th>
             <th scope="col">Bài học</th>
             <th scope="col">Thời gian hoạt động gần nhất</th>
+            <th scope="col">Thời gian hoàn thành</th>
             <th scope="col">Mức độ hoàn thành</th>
         </tr>
         </thead>
@@ -43,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </td>
                 <td><?php echo $models[$i]['lesson'] ?></td>
                 <td><?php echo $models[$i]['update_at'] ?></td>
+                <td><?php echo $models[$i]['time'] ?></td>
                 <td>
                     <?php /** @var int $total */
                     $percent = round(($models[$i]['status'] / $models[$i]['total'])*100) ?>
