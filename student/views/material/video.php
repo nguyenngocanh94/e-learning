@@ -49,7 +49,7 @@ $this->title = $model->name;
         </div>
     </div>
 </div>
-<p id="hidden_timeout" hidden><?php echo (1000)*($model->limit_time) ?></p>
+<p id="hidden_timeout" hidden><?php echo (60000)*($model->limit_time) ?></p>
 <?php
 $this->registerJsFile("/js/material/index.js", ['depends' => [yii\web\JqueryAsset::className()]]);
 $this->registerJsFile("/js/common.js", ['depends' => [AppAsset::className()]]);

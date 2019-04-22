@@ -25,6 +25,7 @@ AppAsset::register($this);
     <title>Hóa học trực tuyến</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
           integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
     <?php $this->head() ?>
 </head>
 <body>
@@ -54,6 +55,7 @@ AppAsset::register($this);
             <div class="user_info">
                 <div class="row" style="width: 100%">
                     <div class="col-md-8">
+                        <span id="clock" style="font-size: 1.5em"></span>
                         <?php if (isset($this->progress)): ?>
                             <div class="progress progress-at-nav" style="float: right; margin-top: 8px">
                                 <div class="progress-bar" style="width: <?php echo $this->progress ?>%;"
@@ -130,7 +132,6 @@ AppAsset::register($this);
     </div>
 </div>
 <?php
-
 $this->registerJs(
     "n =  new Date();
             y = n.getFullYear();
@@ -140,6 +141,9 @@ $this->registerJs(
             
             ");
 ?>
+
+
+
 <?php $this->endBody() ?>
 </body>
 </html>

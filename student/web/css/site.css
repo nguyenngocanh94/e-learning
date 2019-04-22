@@ -289,3 +289,10 @@ a.desc:after {
     color: black !important;
     background-color: white !important;
 }
+
+.card-text{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inherit;
+}

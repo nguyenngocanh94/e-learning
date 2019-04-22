@@ -83,7 +83,12 @@ function getRandomArbitrary(min, max) {
 
 
 function setQuestionThreshold(value) {
-    $('#threshold_question_global').val(value);
+    $('#threshold_time_global').val(value);
+}
+
+
+function setLimitTime(value) {
+    $('#limit_').val(value);
 }
 
 
