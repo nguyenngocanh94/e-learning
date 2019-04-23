@@ -60,6 +60,9 @@ class MaterialController extends Controller
          */
         $lessonStatus = LessionStatus::find()->where(['lesson_id'=>$lesson_id,
             'student_id'=>Yii::$app->user->getId()])->orderBy(['id' => SORT_DESC])->limit(1)->one();
+        if (!$lessonStatus){
+            $lessonStatus = new LessionStatus();
+        }
         $currentStatus = $lessonStatus ? $lessonStatus->status : 0;
 
         if (count($materials) <= $currentStatus){
